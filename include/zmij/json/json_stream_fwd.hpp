@@ -10,8 +10,7 @@
 
 #include <string>
 
-namespace zmij {
-namespace json {
+namespace zmij::json {
 
 template < typename CharT, typename Traits = ::std::char_traits<CharT> >
 class basic_json_ostream;
@@ -25,7 +24,6 @@ class basic_json_istream;
 using json_istream  = basic_json_istream<char>;
 using wjson_istream = basic_json_istream<wchar_t>;
 
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json
 
 #endif /* ZMIJ_JSON_JSON_STREAM_FWD_HPP_ */

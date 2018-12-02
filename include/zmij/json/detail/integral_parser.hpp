@@ -11,9 +11,7 @@
 #include <zmij/json/detail/parser_base.hpp>
 #include <sstream>
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 template < bool IsEnum, typename T, typename CharT, typename Traits = ::std::char_traits<CharT> >
 struct basic_integral_parser_impl : basic_parser_base<CharT, Traits> {
@@ -170,8 +168,6 @@ extern template struct basic_integral_parser<unsigned long long, wchar_t>;
 extern template struct basic_boolean_parser<char>;
 extern template struct basic_boolean_parser<wchar_t>;
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::detail
 
 #endif /* ZMIJ_JSON_DETAIL_INTEGRAL_PARSER_HPP_ */

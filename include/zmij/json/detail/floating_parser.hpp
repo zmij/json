@@ -10,9 +10,7 @@
 
 #include <zmij/json/detail/parser_base.hpp>
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 template < typename T, typename CharT, typename Traits = ::std::char_traits<CharT> >
 struct basic_floating_parser : basic_parser_base<CharT, Traits> {
@@ -66,8 +64,6 @@ extern template struct basic_floating_parser<float, wchar_t>;
 extern template struct basic_floating_parser<double, wchar_t>;
 extern template struct basic_floating_parser<long double, wchar_t>;
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::detail
 
 #endif /* ZMIJ_JSON_DETAIL_FLOATING_PARSER_HPP_ */

@@ -25,9 +25,7 @@
 
 #include <memory>
 
-namespace zmij {
-namespace json {
-namespace traits {
+namespace zmij::json::traits {
 
 enum class value_type {
     VOID,
@@ -123,9 +121,6 @@ struct json_quote : ::std::conditional<
         ::std::false_type
     >::type {};
 
-}  /* namespace traits */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::traits
 
 #endif /* ZMIJ_JSON_TRAITS_HPP_ */

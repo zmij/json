@@ -17,9 +17,7 @@
 #include <zmij/json/json_io_base.hpp>
 #include <zmij/json/detail/parser_base_fwd.hpp>
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 enum class parse_result {
     need_more,
@@ -461,9 +459,6 @@ extern template struct basic_ignore_object_parser<wchar_t>;
 extern template struct basic_delegate_parser<char>;
 extern template struct basic_delegate_parser<wchar_t>;
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::detail
 
 #endif /* ZMIJ_JSON_DETAIL_PARSER_BASE_HPP_ */

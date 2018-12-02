@@ -11,9 +11,7 @@
 #include <zmij/json/detail/parser_base.hpp>
 #include <sstream>
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 template < typename T, typename CharT, typename Traits = ::std::char_traits<CharT> >
 struct basic_streamable_object_parser : basic_parser_base<CharT, Traits> {
@@ -113,9 +111,6 @@ struct basic_streamable_object_parser< ::std::string, char >
     }
 };
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::detail
 
 #endif /* ZMIJ_JSON_DETAIL_STREAMABLE_PARSER_HPP_ */

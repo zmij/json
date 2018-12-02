@@ -11,9 +11,7 @@
 #include <zmij/json/detail/json_lexer.hpp>
 #include <zmij/json/detail/json_fsm.hpp>
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 template < typename BaseIterator, typename CharT,
         typename Traits = ::std::char_traits<CharT> >
@@ -32,9 +30,6 @@ struct parser_traits {
     using fsm_type          = basic_json_fsm<CharT, Traits>;
 };
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::detail
 
 #endif /* ZMIJ_JSON_DETAIL_PARSER_TRAITS_HPP_ */

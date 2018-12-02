@@ -10,9 +10,7 @@
 
 #include <zmij/json/parser.hpp>
 
-namespace zmij {
-namespace json {
-namespace test {
+namespace zmij::json::test {
 
 struct debug_parser : detail::parser_base {
     debug_parser(bool blabla = true) : blabla_{blabla} {}
@@ -100,9 +98,6 @@ struct debug_parser : detail::parser_base {
     bool blabla_;
 };
 
-}  /* namespace test */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::test
 
 #endif /* JSON_DEBUG_PARSER_HPP_ */

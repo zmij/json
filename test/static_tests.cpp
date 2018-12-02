@@ -13,9 +13,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-namespace zmij {
-namespace json {
-namespace test {
+namespace zmij::json::test {
 
 static_assert( traits::json_type< bool >::value == traits::value_type::BOOL,
         "Correct json value type" );
@@ -44,6 +42,4 @@ TEST(Dummy, Dummy)
 
 }
 
-}  /* namespace test */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::test

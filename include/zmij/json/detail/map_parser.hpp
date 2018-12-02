@@ -11,9 +11,7 @@
 #include <zmij/json/traits.hpp>
 #include <zmij/json/detail/parser_base.hpp>
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 template < typename K, typename V>
 struct key_value_parser_base : delegate_parser {
@@ -223,9 +221,6 @@ template < template <typename, typename, typename ...> class Map,
 struct map_parser< Map<K, V, Rest...> > : map_parser_impl<
     util::has_iostream_operators< K >::value, Map<K, V, Rest...> > {};
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::detail
 
 #endif /* ZMIJ_JSON_DETAIL_MAP_PARSER_HPP_ */

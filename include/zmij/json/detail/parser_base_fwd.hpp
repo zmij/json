@@ -8,8 +8,7 @@
 #ifndef ZMIJ_JSON_DETAIL_PARSER_BASE_FWD_HPP_
 #define ZMIJ_JSON_DETAIL_PARSER_BASE_FWD_HPP_
 
-namespace zmij {
-namespace json {
+namespace zmij::json {
 
 template < typename T, typename CharT, typename Traits = ::std::char_traits<CharT> >
 struct basic_parser;
@@ -42,9 +41,6 @@ using delegate_parser   = basic_delegate_parser<char>;
 using wdelegate_parser  = basic_delegate_parser<wchar_t>;
 
 }  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
-
-
+}  // namespace zmij::json
 
 #endif /* ZMIJ_JSON_DETAIL_PARSER_BASE_FWD_HPP_ */

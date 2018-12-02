@@ -19,8 +19,7 @@
 #include <zmij/json/json_io_base.hpp>
 #include <zmij/json/traits.hpp>
 
-namespace zmij {
-namespace json {
+namespace zmij::json {
 
 namespace detail {
     template < typename CharT, typename Traits, traits::value_type >
@@ -524,7 +523,6 @@ end_array(basic_json_ostream<CharT, Traits>& os)
     os.end_array();
 }
 
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json
 
 #endif /* ZMIJ_JSON_JSON_OSTREAM_HPP_ */

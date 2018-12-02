@@ -12,9 +12,7 @@
 #include "debug_parser.hpp"
 #include "test_data_structure.hpp"
 
-namespace zmij {
-namespace json {
-namespace test {
+namespace zmij::json::test {
 
 namespace {
 
@@ -141,6 +139,4 @@ TEST(JIstream, DISABLED_Struct)
     EXPECT_NO_THROW(jis >> ts);
 }
 
-}  /* namespace test */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::test

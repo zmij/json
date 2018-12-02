@@ -18,9 +18,7 @@
 #include <zmij/json/util/source_location.hpp>
 #include <zmij/json/json_io_base.hpp>
 
-namespace zmij {
-namespace json {
-namespace lexer {
+namespace zmij::json::lexer {
 
 template < typename Lexer, typename CharT, typename Traits = ::std::char_traits<CharT> >
 struct basic_json_tokens : ::boost::spirit::lex::lexer< Lexer > {
@@ -76,9 +74,6 @@ using json_tokens   = basic_json_tokens<Lexer, char>;
 template <typename Lexer>
 using wjson_tokens  = basic_json_tokens<Lexer, wchar_t>;
 
-}  /* namespace lexer */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::lexer
 
 #endif /* ZMIJ_JSON_DETAIL_JSON_LEXER_HPP_ */

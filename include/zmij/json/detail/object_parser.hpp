@@ -11,9 +11,7 @@
 #include <zmij/json/detail/parser_base.hpp>
 #include <unordered_map>
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 template < typename CharT, typename Traits = ::std::char_traits<CharT> >
 struct basic_object_parser : basic_parser_base<CharT, Traits> {
@@ -157,9 +155,6 @@ private:
     parser_ptr_type parser_;
 };
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::detail
 
 #endif /* ZMIJ_JSON_DETAIL_OBJECT_PARSER_HPP_ */

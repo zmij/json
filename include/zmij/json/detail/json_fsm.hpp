@@ -11,9 +11,7 @@
 #include <afsm/fsm.hpp>
 #include <zmij/json/json_io_base.hpp>
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 namespace events {
 
@@ -266,9 +264,7 @@ using basic_json_fsm = ::afsm::state_machine< json_parser_fsm_def<CharT, Traits>
 using json_fsm = basic_json_fsm<char>;
 using wjson_fsm = basic_json_fsm<wchar_t>;
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::detail
 
 namespace afsm {
 extern template class state_machine< zmij::json::detail::json_parser_fsm_def<char> >;

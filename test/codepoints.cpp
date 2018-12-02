@@ -12,9 +12,7 @@
 
 #include <zmij/json/json_io_base.hpp>
 
-namespace zmij {
-namespace json {
-namespace test {
+namespace zmij::json::test {
 
 TEST(Codepoint, Convert)
 {
@@ -119,6 +117,4 @@ TEST(JsonParse, Unescape)
     ::std::cerr << res << "\n";
 }
 
-}  /* namespace test */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::test

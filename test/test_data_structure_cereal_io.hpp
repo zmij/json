@@ -11,9 +11,7 @@
 #include "test_data_structure.hpp"
 #include <cereal/cereal.hpp>
 
-namespace zmij {
-namespace json {
-namespace test {
+namespace zmij::json::test {
 
 template < typename Archive >
 void
@@ -26,9 +24,6 @@ CEREAL_SERIALIZE_FUNCTION_NAME(Archive& ar, test_structure& v)
     );
 }
 
-}  /* namespace test */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::test
 
 #endif /* JSON_TEST_DATA_STRUCTURE_CEREAL_IO_HPP_ */

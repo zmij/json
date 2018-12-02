@@ -20,8 +20,7 @@
 #include <zmij/json/traits.hpp>
 #include <zmij/json/parser.hpp>
 
-namespace zmij {
-namespace json {
+namespace zmij::json {
 
 namespace detail {
 
@@ -300,7 +299,6 @@ end_array(basic_json_istream<CharT, Traits>& is)
     is.end_array();
 }
 
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json
 
 #endif /* ZMIJ_JSON_JSON_ISTREAM_HPP_ */

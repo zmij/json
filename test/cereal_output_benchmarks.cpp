@@ -11,9 +11,7 @@
 #include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
 
-namespace wire {
-namespace json {
-namespace bench {
+namespace zmij::json::bench {
 
 void
 BM_CerealStructOutput(::benchmark::State& state)
@@ -69,6 +67,4 @@ BENCHMARK(BM_CerealVectorOutput);
 BENCHMARK(BM_CerealStringOutput);
 BENCHMARK(BM_CerealStructVectorOutput);
 
-}  /* namespace bench */
-}  /* namespace json */
-}  /* namespace wire */
+}  // namespace zmij::json::bench

@@ -12,9 +12,7 @@
 #include "debug_parser.hpp"
 #include <fstream>
 
-namespace zmij {
-namespace json {
-namespace test {
+namespace zmij::json::test {
 
 class parse_test : public ::testing::TestWithParam< ::std::string > {
 };
@@ -62,8 +60,5 @@ TEST_P(unsure_test, PASS)
 @INSTANTIATE_EXPECTED_FAIL@
 @INSTANTIATE_UNSURE@
 
-}  /* namespace test */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::test
 

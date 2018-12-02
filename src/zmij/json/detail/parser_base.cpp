@@ -17,9 +17,7 @@ template class state_machine< zmij::json::detail::json_parser_fsm_def<char> >;
 template class state_machine< zmij::json::detail::json_parser_fsm_def<wchar_t> >;
 }  /* namespace afsm */
 
-namespace zmij {
-namespace json {
-namespace detail {
+namespace zmij::json::detail {
 
 template struct basic_parser_base<char>;
 template struct basic_parser_base<wchar_t>;
@@ -164,6 +162,4 @@ parse(wparser_base& /*p*/, ::std::wistream& is)
     return false;
 }
 
-}  /* namespace detail */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::detail

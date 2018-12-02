@@ -10,9 +10,7 @@
 
 #include <zmij/json/json_stream.hpp>
 
-namespace zmij {
-namespace json {
-namespace test {
+namespace zmij::json::test {
 
 struct test_structure {
     ::std::string   str;
@@ -38,10 +36,6 @@ json_read(json::json_istream& is, test_structure& v)
     return is;
 }
 
-}  /* namespace test */
-}  /* namespace json */
-}  /* namespace zmij */
-
-
+}  // namespace zmij::json::test
 
 #endif /* JSON_TEST_DATA_STRUCTURE_HPP_ */

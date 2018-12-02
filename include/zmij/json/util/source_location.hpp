@@ -12,8 +12,7 @@
 #include <cstdint>
 #include <iostream>
 
-namespace zmij {
-namespace idl {
+namespace zmij::json::util {
 
 struct source_location {
     ::std::string file;
@@ -31,8 +30,6 @@ operator << (::std::ostream& os, source_location const& val)
     return os;
 }
 
-}  /* namespace idl */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::util
 
 #endif /* ZMIJ_JSON_UTIL_SOURCE_LOCATION_HPP_ */

@@ -10,9 +10,7 @@
 
 #include <zmij/json/detail/parser_state_adapter.hpp>
 
-namespace zmij {
-namespace json {
-namespace grammar {
+namespace zmij::json::grammar {
 
 template < typename InputIterator, typename Lexer, typename CharT >
 using parser_grammar = ::boost::spirit::qi::grammar<
@@ -106,8 +104,6 @@ struct json_grammar : parser_grammar< InputIterator, Lexer, CharT > {
     rule_type               value, object, array;
 };
 
-}  /* namespace grammar */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::grammar
 
 #endif /* ZMIJ_JSON_DETAIL_JSON_GRAMMAR_HPP_ */

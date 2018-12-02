@@ -11,9 +11,7 @@
 #include <zmij/idl/grammar/common.hpp>
 #include <zmij/json/json_io_base.hpp>
 
-namespace zmij {
-namespace json {
-namespace grammar {
+namespace zmij::json::grammar {
 
 template < typename State, typename CharT, typename Traits = ::std::char_traits<CharT> >
 struct basic_parser_state_adapter {
@@ -181,9 +179,6 @@ struct basic_parser_state_adapter {
     //@}
 };
 
-}  /* namespace grammar */
-}  /* namespace json */
-}  /* namespace zmij */
-
+}  // namespace zmij::json::grammar
 
 #endif /* ZMIJ_JSON_DETAIL_PARSER_STATE_ADAPTER_HPP_ */

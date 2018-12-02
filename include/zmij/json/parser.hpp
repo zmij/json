@@ -17,8 +17,7 @@
 
 //#include <zmij/json/detail/map_parser.hpp>
 
-namespace zmij {
-namespace json {
+namespace zmij::json {
 
 namespace detail {
 
@@ -71,7 +70,6 @@ struct basic_parser
     basic_parser(T& val) : base_type{val} {}
 };
 
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json
 
 #endif /* ZMIJ_JSON_PARSER_HPP_ */

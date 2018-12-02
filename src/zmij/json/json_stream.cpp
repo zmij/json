@@ -7,8 +7,7 @@
 
 #include <zmij/json/json_stream.hpp>
 
-namespace zmij {
-namespace json {
+namespace zmij::json {
 
 template class basic_json_ostream<char>;
 template class basic_json_ostream<wchar_t>;
@@ -16,5 +15,4 @@ template class basic_json_ostream<wchar_t>;
 template class basic_json_istream<char>;
 template class basic_json_istream<wchar_t>;
 
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json

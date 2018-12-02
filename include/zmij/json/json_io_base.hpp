@@ -15,8 +15,7 @@
 #include <codecvt>
 #include <algorithm>
 
-namespace zmij {
-namespace json {
+namespace zmij::json {
 
 struct json_token_defs {
     enum token_ids {
@@ -617,10 +616,6 @@ unescape(InputIterator begin,
     return true;
 }
 
-
-}  /* namespace json */
-}  /* namespace zmij */
-
-
+}  // namespace zmij::json
 
 #endif /* ZMIJ_JSON_JSON_IO_BASE_HPP_ */

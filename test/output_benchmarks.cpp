@@ -10,9 +10,7 @@
 #include "test_data_structure.hpp"
 #include <sstream>
 
-namespace zmij {
-namespace json {
-namespace bench {
+namespace zmij::json::bench {
 
 void
 BM_StructOutput(::benchmark::State& state)
@@ -63,8 +61,6 @@ BENCHMARK(BM_VectorOutput);
 BENCHMARK(BM_StringOutput);
 BENCHMARK(BM_StructVectorOutput);
 
-}  /* namespace bench */
-}  /* namespace json */
-}  /* namespace zmij */
+}  // namespace zmij::json::bench
 
 BENCHMARK_MAIN()
