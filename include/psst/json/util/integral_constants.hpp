@@ -5,20 +5,20 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_UTIL_INTEGRAL_CONSTANTS_HPP_
-#define ZMIJ_JSON_UTIL_INTEGRAL_CONSTANTS_HPP_
+#ifndef PSST_JSON_UTIL_INTEGRAL_CONSTANTS_HPP_
+#define PSST_JSON_UTIL_INTEGRAL_CONSTANTS_HPP_
 
 #include <type_traits>
 
-namespace zmij::json::util {
+namespace psst::json::util {
 
 template < typename ConstantType, bool Condition, ConstantType ifTrue, ConstantType ifFalse >
-struct conditional_constant : ::std::integral_constant<ConstantType, ifTrue> {};
+struct conditional_constant : std::integral_constant<ConstantType, ifTrue> {};
 
 template < typename ConstantType, ConstantType ifTrue, ConstantType ifFalse >
 struct conditional_constant< ConstantType, false, ifTrue, ifFalse >
-    : ::std::integral_constant<ConstantType, ifFalse> {};
+    : std::integral_constant<ConstantType, ifFalse> {};
 
-}  // namespace zmij::json::util
+}  // namespace psst::json::util
 
-#endif /* ZMIJ_JSON_UTIL_INTEGRAL_CONSTANTS_HPP_ */
+#endif /* PSST_JSON_UTIL_INTEGRAL_CONSTANTS_HPP_ */

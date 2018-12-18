@@ -5,8 +5,8 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_PARSER_BASE_HPP_
-#define ZMIJ_JSON_DETAIL_PARSER_BASE_HPP_
+#ifndef PSST_JSON_DETAIL_PARSER_BASE_HPP_
+#define PSST_JSON_DETAIL_PARSER_BASE_HPP_
 
 #include <string>
 #include <cstdint>
@@ -14,10 +14,10 @@
 #include <memory>
 #include <iosfwd>
 
-#include <zmij/json/json_io_base.hpp>
-#include <zmij/json/detail/parser_base_fwd.hpp>
+#include <psst/json/json_io_base.hpp>
+#include <psst/json/detail/parser_base_fwd.hpp>
 
-namespace zmij::json::detail {
+namespace psst::json::__1::detail {
 
 enum class parse_result {
     need_more,
@@ -27,12 +27,12 @@ enum class parse_result {
 template < typename CharT, typename Traits >
 struct basic_parser_base {
     using this_type         = basic_parser_base<CharT, Traits>;
-    using parser_ptr_type   = ::std::shared_ptr<this_type>;
-    using string_type       = ::std::basic_string<CharT, Traits>;
+    using parser_ptr_type   = std::shared_ptr<this_type>;
+    using string_type       = std::basic_string<CharT, Traits>;
 
     virtual ~basic_parser_base() {}
 
-    ::std::size_t
+    std::size_t
     stack_size() const
     {
         if (current_parser_)
@@ -56,17 +56,17 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected string literal" };
+        throw std::runtime_error{ "Unexpected string literal" };
     }
     virtual parse_result
-    integral_literal(::std::int64_t val)
+    integral_literal(std::int64_t val)
     {
         if (current_parser_) {
             if (current_parser_->integral_literal(val) == parse_result::done)
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected integral literal" };
+        throw std::runtime_error{ "Unexpected integral literal" };
     }
     virtual parse_result
     float_literal(long double val)
@@ -76,7 +76,7 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected float literal" };
+        throw std::runtime_error{ "Unexpected float literal" };
     }
     virtual parse_result
     bool_literal(bool val)
@@ -86,7 +86,7 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected bool literal" };
+        throw std::runtime_error{ "Unexpected bool literal" };
     }
     virtual parse_result
     null_literal()
@@ -96,7 +96,7 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected null literal" };
+        throw std::runtime_error{ "Unexpected null literal" };
     }
 
     virtual parse_result
@@ -107,7 +107,7 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected array start" };
+        throw std::runtime_error{ "Unexpected array start" };
     }
     virtual parse_result
     end_array()
@@ -117,7 +117,7 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected array end" };
+        throw std::runtime_error{ "Unexpected array end" };
     }
     virtual parse_result
     start_element()
@@ -127,7 +127,7 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected array element start" };
+        throw std::runtime_error{ "Unexpected array element start" };
     }
 
     virtual parse_result
@@ -138,7 +138,7 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected object start" };
+        throw std::runtime_error{ "Unexpected object start" };
     }
     virtual parse_result
     end_object()
@@ -148,7 +148,7 @@ struct basic_parser_base {
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected object end" };
+        throw std::runtime_error{ "Unexpected object end" };
     }
     virtual parse_result
     start_member(string_type const& name)
@@ -159,17 +159,17 @@ struct basic_parser_base {
             return parse_result::need_more;
         }
         // FIXME Report member name, for wchar_t also
-        throw ::std::runtime_error{ "Unexpected member start" };
+        throw std::runtime_error{ "Unexpected member start" };
     }
     virtual void
     add_member_parser(string_type&& /*name*/, parser_ptr_type)
     {
-        throw ::std::runtime_error{"Cannot add member parser"};
+        throw std::runtime_error{"Cannot add member parser"};
     }
     virtual void
     add_element_parser(parser_ptr_type)
     {
-        throw ::std::runtime_error{"Cannot add element parser"};
+        throw std::runtime_error{"Cannot add element parser"};
     }
 protected:
     parser_ptr_type     current_parser_ = nullptr;
@@ -195,7 +195,7 @@ struct basic_ignore_parser : basic_parser_base<CharT, Traits> {
         return parse_result::done;
     }
     parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
         if (current_parser_) {
             if (current_parser_->integral_literal(val) == parse_result::done)
@@ -256,7 +256,7 @@ struct basic_ignore_parser : basic_parser_base<CharT, Traits> {
             }
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected array end" };
+        throw std::runtime_error{ "Unexpected array end" };
     }
     parse_result
     start_object() override
@@ -279,7 +279,7 @@ struct basic_ignore_parser : basic_parser_base<CharT, Traits> {
             }
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{ "Unexpected object end" };
+        throw std::runtime_error{ "Unexpected object end" };
     }
 protected:
     using base_type::current_parser_;
@@ -356,35 +356,35 @@ struct basic_delegate_parser : basic_parser_base<CharT, Traits> {
     {
         if (current_parser_)
             return current_parser_->string_literal(val);
-        throw ::std::runtime_error{ "Unexpected string literal" };
+        throw std::runtime_error{ "Unexpected string literal" };
     }
     parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
         if (current_parser_)
             return current_parser_->integral_literal(val);
-        throw ::std::runtime_error{ "Unexpected integral literal" };
+        throw std::runtime_error{ "Unexpected integral literal" };
     }
     parse_result
     float_literal(long double val) override
     {
         if (current_parser_)
             return current_parser_->float_literal(val);
-        throw ::std::runtime_error{ "Unexpected float literal" };
+        throw std::runtime_error{ "Unexpected float literal" };
     }
     parse_result
     bool_literal(bool val) override
     {
         if (current_parser_)
             return current_parser_->bool_literal(val);
-        throw ::std::runtime_error{ "Unexpected bool literal" };
+        throw std::runtime_error{ "Unexpected bool literal" };
     }
     parse_result
     null_literal() override
     {
         if (current_parser_)
             return current_parser_->null_literal();
-        throw ::std::runtime_error{ "Unexpected null literal" };
+        throw std::runtime_error{ "Unexpected null literal" };
     }
 
     parse_result
@@ -392,21 +392,21 @@ struct basic_delegate_parser : basic_parser_base<CharT, Traits> {
     {
         if (current_parser_)
             return current_parser_->start_array();
-        throw ::std::runtime_error{ "Unexpected array start" };
+        throw std::runtime_error{ "Unexpected array start" };
     }
     parse_result
     end_array() override
     {
         if (current_parser_)
             return current_parser_->end_array();
-        throw ::std::runtime_error{ "Unexpected array end" };
+        throw std::runtime_error{ "Unexpected array end" };
     }
     parse_result
     start_element() override
     {
         if (current_parser_)
             return current_parser_->start_element();
-        throw ::std::runtime_error{ "Unexpected array element start" };
+        throw std::runtime_error{ "Unexpected array element start" };
     }
 
     parse_result
@@ -414,39 +414,39 @@ struct basic_delegate_parser : basic_parser_base<CharT, Traits> {
     {
         if (current_parser_)
             return current_parser_->start_object();
-        throw ::std::runtime_error{ "Unexpected object start" };
+        throw std::runtime_error{ "Unexpected object start" };
     }
     parse_result
     end_object() override
     {
         if (current_parser_)
             return current_parser_->end_object();
-        throw ::std::runtime_error{ "Unexpected object end" };
+        throw std::runtime_error{ "Unexpected object end" };
     }
     parse_result
     start_member(string_type const& name) override
     {
         if (current_parser_)
             return current_parser_->start_member(name);
-        throw ::std::runtime_error{ "Unexpected member start" };
+        throw std::runtime_error{ "Unexpected member start" };
     }
 protected:
     using base_type::current_parser_;
 };
 
 bool
-parse(parser_base&, char const* first, ::std::size_t size);
+parse(parser_base&, char const* first, std::size_t size);
 bool
-parse(parser_base&, ::std::string const& data);
+parse(parser_base&, std::string const& data);
 bool
-parse(parser_base&, ::std::istream& is);
+parse(parser_base&, std::istream& is);
 
 bool
-parse(wparser_base&, wchar_t const* first, ::std::size_t size);
+parse(wparser_base&, wchar_t const* first, std::size_t size);
 bool
-parse(wparser_base&, ::std::wstring const& data);
+parse(wparser_base&, std::wstring const& data);
 bool
-parse(wparser_base&, ::std::wistream& is);
+parse(wparser_base&, std::wistream& is);
 
 extern template struct basic_parser_base<char>;
 extern template struct basic_parser_base<wchar_t>;
@@ -459,6 +459,6 @@ extern template struct basic_ignore_object_parser<wchar_t>;
 extern template struct basic_delegate_parser<char>;
 extern template struct basic_delegate_parser<wchar_t>;
 
-}  // namespace zmij::json::detail
+}  // namespace psst::json::detail
 
-#endif /* ZMIJ_JSON_DETAIL_PARSER_BASE_HPP_ */
+#endif /* PSST_JSON_DETAIL_PARSER_BASE_HPP_ */

@@ -8,6 +8,7 @@ set(
     json_lib_SRCS
     json_stream.cpp
     detail/parser_base.cpp
+    detail/context.cpp
 )
 add_library(zmij-json SHARED ${json_lib_SRCS})
 target_link_libraries(zmij-json libafsm)

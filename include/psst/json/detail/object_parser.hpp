@@ -5,15 +5,15 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_OBJECT_PARSER_HPP_
-#define ZMIJ_JSON_DETAIL_OBJECT_PARSER_HPP_
+#ifndef PSST_JSON_DETAIL_OBJECT_PARSER_HPP_
+#define PSST_JSON_DETAIL_OBJECT_PARSER_HPP_
 
-#include <zmij/json/detail/parser_base.hpp>
+#include <psst/json/detail/parser_base.hpp>
 #include <unordered_map>
 
-namespace zmij::json::detail {
+namespace psst::json::__1::detail {
 
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_object_parser : basic_parser_base<CharT, Traits> {
     using base_type     = basic_parser_base<CharT, Traits>;
     using string_type   = typename base_type::string_type;
@@ -48,25 +48,25 @@ struct basic_object_parser : basic_parser_base<CharT, Traits> {
                 return catch_all_parser_->start_member(name);
             } else {
                 // Set current parser to ignore parser
-                current_parser_ = ::std::make_shared<ignore_parser>();
+                current_parser_ = std::make_shared<ignore_parser>();
             }
         }
         return parse_result::need_more;
     }
     void
     add_member_parser(string_type&& name, parser_ptr_type p) override
-    { members_.emplace(::std::move(name), p); }
+    { members_.emplace(std::move(name), p); }
     void
     add_element_parser(parser_ptr_type p) override
     { catch_all_parser_ = p; }
 protected:
     using base_type::current_parser_;
-    using member_parsers = ::std::unordered_map<string_type, parser_ptr_type>;
+    using member_parsers = std::unordered_map<string_type, parser_ptr_type>;
     member_parsers      members_;
     parser_ptr_type     catch_all_parser_;
 };
 
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_root_parser : basic_parser_base<CharT, Traits> {
     using base_type     = basic_parser_base<CharT, Traits>;
     using string_type   = typename base_type::string_type;
@@ -82,7 +82,7 @@ struct basic_root_parser : basic_parser_base<CharT, Traits> {
         return current_parser_->string_literal(val);
     }
     parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
         if (!current_parser_)
             current_parser_ = parser_;
@@ -155,6 +155,6 @@ private:
     parser_ptr_type parser_;
 };
 
-}  // namespace zmij::json::detail
+}  // namespace psst::json::detail
 
-#endif /* ZMIJ_JSON_DETAIL_OBJECT_PARSER_HPP_ */
+#endif /* PSST_JSON_DETAIL_OBJECT_PARSER_HPP_ */

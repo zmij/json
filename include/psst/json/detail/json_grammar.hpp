@@ -5,45 +5,45 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_JSON_GRAMMAR_HPP_
-#define ZMIJ_JSON_DETAIL_JSON_GRAMMAR_HPP_
+#ifndef PSST_JSON_DETAIL_JSON_GRAMMAR_HPP_
+#define PSST_JSON_DETAIL_JSON_GRAMMAR_HPP_
 
-#include <zmij/json/detail/parser_state_adapter.hpp>
+#include <psst/json/detail/parser_state_adapter.hpp>
 
-namespace zmij::json::grammar {
+namespace psst::json::grammar {
 
 template < typename InputIterator, typename Lexer, typename CharT >
-using parser_grammar = ::boost::spirit::qi::grammar<
+using parser_grammar = boost::spirit::qi::grammar<
         InputIterator,
-        ::boost::spirit::qi::in_state_skipper< Lexer, CharT const* >
+        boost::spirit::qi::in_state_skipper< Lexer, CharT const* >
 >;
 
 template < typename InputIterator, typename Lexer, typename CharT >
-using parser_rule = ::boost::spirit::qi::rule <
+using parser_rule = boost::spirit::qi::rule <
         InputIterator,
-        ::boost::spirit::qi::in_state_skipper< Lexer, CharT const* >
+        boost::spirit::qi::in_state_skipper< Lexer, CharT const* >
 >;
 
-template < typename CharT, typename Traits = ::std::char_traits< CharT > >
+template < typename CharT, typename Traits = std::char_traits< CharT > >
 struct dequote_func {
-    using result = ::std::basic_string<CharT, Traits>;
+    using result = std::basic_string<CharT, Traits>;
 
     template < typename TokenValue >
     result
     operator()(TokenValue const& tok) const
     {
         // TODO Grammar for unescaping
-        auto sz = ::std::distance(tok.begin(), tok.end());
+        auto sz = std::distance(tok.begin(), tok.end());
         auto b = tok.begin();
         ++b;
         auto e = b;
-        ::std::advance(e, sz - 2);
+        std::advance(e, sz - 2);
         return {b, e};
     }
 };
 
 template < typename InputIterator, typename Lexer, typename CharT,
-        typename Traits = ::std::char_traits<CharT> >
+        typename Traits = std::char_traits<CharT> >
 struct json_grammar : parser_grammar< InputIterator, Lexer, CharT > {
     using main_rule_type    = parser_rule< InputIterator, Lexer, CharT >;
     using rule_type         = parser_rule< InputIterator, Lexer, CharT >;
@@ -62,9 +62,9 @@ struct json_grammar : parser_grammar< InputIterator, Lexer, CharT > {
     {
         using state_adapter = basic_parser_state_adapter< ParserState, CharT, Traits >;
         using dequote_type  = dequote_func<CharT, Traits>;
-        ::boost::phoenix::function<dequote_type> const dequote{dequote_type{}};
+        boost::phoenix::function<dequote_type> const dequote{dequote_type{}};
 
-        namespace qi = ::boost::spirit::qi;
+        namespace qi = boost::spirit::qi;
         using qi::_1;
         using qi::eps;
         using qi::lit;
@@ -104,6 +104,6 @@ struct json_grammar : parser_grammar< InputIterator, Lexer, CharT > {
     rule_type               value, object, array;
 };
 
-}  // namespace zmij::json::grammar
+}  // namespace psst::json::grammar
 
-#endif /* ZMIJ_JSON_DETAIL_JSON_GRAMMAR_HPP_ */
+#endif /* PSST_JSON_DETAIL_JSON_GRAMMAR_HPP_ */

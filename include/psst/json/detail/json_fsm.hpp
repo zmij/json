@@ -5,13 +5,16 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_JSON_FSM_HPP_
-#define ZMIJ_JSON_DETAIL_JSON_FSM_HPP_
+#ifndef PSST_JSON_DETAIL_JSON_FSM_HPP_
+#define PSST_JSON_DETAIL_JSON_FSM_HPP_
 
 #include <afsm/fsm.hpp>
-#include <zmij/json/json_io_base.hpp>
+#include <psst/json/json_io_base.hpp>
 
-namespace zmij::json::detail {
+#include <boost/range.hpp>
+#include <boost/variant.hpp>
+
+namespace psst::json::__1::detail {
 
 namespace events {
 
@@ -39,7 +42,7 @@ enum class value_context {
     object
 };
 
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 struct json_parser_fsm_def
         : ::afsm::def::state_machine< json_parser_fsm_def<CharT, Traits>> {
 
@@ -126,7 +129,7 @@ struct json_parser_fsm_def
                 tr< colon,  events::colon,          value   >,
                 tr< value,  events::comma,          name    >
             >;
-            ::std::size_t   size    = 0;
+            std::size_t   size    = 0;
         };
         struct end : pop< end, json_parser_fsm_def > {};
         //@}
@@ -159,7 +162,7 @@ struct json_parser_fsm_def
             void
             operator()(Event&& evt, FSM& fsm)
             {
-                root_machine(fsm).process_event(::std::forward<Event>(evt));
+                root_machine(fsm).process_event(std::forward<Event>(evt));
             }
         };
         //@}
@@ -205,7 +208,7 @@ struct json_parser_fsm_def
         using chars             = typename json_io::chars;
 //        using char_type         = typename json_io::char_type;
         using iterator_type     = typename Token::iterator_type;
-        using iterpair_type     = ::boost::iterator_range<iterator_type>;
+        using iterpair_type     = boost::iterator_range<iterator_type>;
 
         auto& fsm = rebind();
         switch (tok.id()) {
@@ -223,20 +226,20 @@ struct json_parser_fsm_def
                 return ok(fsm.process_event(events::comma{}));
             case json_io::id_string: {
                 string_type literal;
-                auto seq = ::boost::get<iterpair_type>(tok.value());
+                auto seq = boost::get<iterpair_type>(tok.value());
                 if (!unescape(seq.begin(), seq.end(), literal))
                     return false;
-                return ok(fsm.process_event(::std::move(literal)));
+                return ok(fsm.process_event(std::move(literal)));
             }
             case json_io::id_empty_string:
                 return ok(fsm.process_event(string_type{}));
             case json_io::id_integral: {
-                auto seq = ::boost::get<iterpair_type>(tok.value());
+                auto seq = boost::get<iterpair_type>(tok.value());
                 integral_type literal = json_io::extract_integer(seq.begin(), seq.end());
                 return ok(fsm.process_event(literal));
             }
             case json_io::id_float: {
-                auto seq = ::boost::get<iterpair_type>(tok.value());
+                auto seq = boost::get<iterpair_type>(tok.value());
                 float_type literal = json_io::extract_float(seq.begin(), seq.end());
                 return ok(fsm.process_event(literal));
             }
@@ -250,7 +253,7 @@ struct json_parser_fsm_def
             case json_io::id_ws:
                 return true;
             default:
-                ::std::cerr << "Unknown token type " << tok.id() << "\n";
+                std::cerr << "Unknown token type " << tok.id() << "\n";
                 break;
         }
 
@@ -258,17 +261,16 @@ struct json_parser_fsm_def
     }
 };
 
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 using basic_json_fsm = ::afsm::state_machine< json_parser_fsm_def<CharT, Traits> >;
 
 using json_fsm = basic_json_fsm<char>;
 using wjson_fsm = basic_json_fsm<wchar_t>;
-
-}  // namespace zmij::json::detail
+}  // namespace psst::json::__1::detail
 
 namespace afsm {
-extern template class state_machine< zmij::json::detail::json_parser_fsm_def<char> >;
-extern template class state_machine< zmij::json::detail::json_parser_fsm_def<wchar_t> >;
+extern template class state_machine< psst::json::__1::detail::json_parser_fsm_def<char> >;
+extern template class state_machine< psst::json::__1::detail::json_parser_fsm_def<wchar_t> >;
 }  /* namespace afsm */
 
-#endif /* ZMIJ_JSON_DETAIL_JSON_FSM_HPP_ */
+#endif /* PSST_JSON_DETAIL_JSON_FSM_HPP_ */

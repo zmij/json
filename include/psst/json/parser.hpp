@@ -5,49 +5,49 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_PARSER_HPP_
-#define ZMIJ_JSON_PARSER_HPP_
+#ifndef PSST_JSON_PARSER_HPP_
+#define PSST_JSON_PARSER_HPP_
 
-#include <zmij/json/traits.hpp>
-#include <zmij/json/detail/parser_base.hpp>
-#include <zmij/json/detail/streamable_parser.hpp>
-#include <zmij/json/detail/integral_parser.hpp>
-#include <zmij/json/detail/floating_parser.hpp>
-#include <zmij/json/detail/object_parser.hpp>
+#include <psst/json/traits.hpp>
+#include <psst/json/detail/parser_base.hpp>
+#include <psst/json/detail/streamable_parser.hpp>
+#include <psst/json/detail/integral_parser.hpp>
+#include <psst/json/detail/floating_parser.hpp>
+#include <psst/json/detail/object_parser.hpp>
 
-//#include <zmij/json/detail/map_parser.hpp>
+//#include <psst/json/detail/map_parser.hpp>
 
-namespace zmij::json {
+namespace psst::json::__1 {
 
 namespace detail {
 
 template < traits::value_type, typename T, typename CharT,
-    typename Traits = ::std::char_traits<CharT> >
+    typename Traits = std::char_traits<CharT> >
 struct basic_parser_impl;
 
 template < typename CharT, typename Traits >
-struct basic_parser_impl< traits::value_type::BOOL, bool, CharT, Traits >
+struct basic_parser_impl< traits::value_type::boolean, bool, CharT, Traits >
         : basic_boolean_parser<CharT, Traits> {
     using base_type = basic_boolean_parser<CharT, Traits>;
     basic_parser_impl(bool& val) : base_type{val} {}
 };
 
 template < typename T, typename CharT, typename Traits >
-struct basic_parser_impl<traits::value_type::INTEGRAL, T, CharT, Traits>
+struct basic_parser_impl<traits::value_type::integral, T, CharT, Traits>
         : basic_integral_parser< T, CharT, Traits > {
     using base_type = basic_integral_parser< T, CharT, Traits >;
     basic_parser_impl(T& val) : base_type{val} {}
 };
 
 template < typename T, typename CharT, typename Traits >
-struct basic_parser_impl<traits::value_type::FLOATING, T, CharT, Traits>
+struct basic_parser_impl<traits::value_type::floating, T, CharT, Traits>
         : basic_floating_parser< T, CharT, Traits > {
     using base_type = basic_floating_parser< T, CharT, Traits >;
     basic_parser_impl(T& val) : base_type{val} {}
 };
 
 template < typename T, typename CharT, typename Traits >
-struct basic_parser_impl< traits::value_type::STRING, T, CharT, Traits >
+struct basic_parser_impl< traits::value_type::string, T, CharT, Traits >
         : basic_streamable_object_parser< T, CharT, Traits > {
     using base_type = basic_streamable_object_parser< T, CharT, Traits >;
     basic_parser_impl(T& val) : base_type{val} {}
@@ -55,7 +55,7 @@ struct basic_parser_impl< traits::value_type::STRING, T, CharT, Traits >
 
 //// FIXME Use a generic object parser
 template < typename T, typename CharT, typename Traits >
-struct basic_parser_impl< traits::value_type::OBJECT, T, CharT, Traits >
+struct basic_parser_impl< traits::value_type::object, T, CharT, Traits >
         : basic_object_parser< CharT, Traits > {
     using base_type = basic_object_parser< CharT, Traits >;
     basic_parser_impl(T& /*val*/) : base_type{} {}
@@ -70,6 +70,6 @@ struct basic_parser
     basic_parser(T& val) : base_type{val} {}
 };
 
-}  // namespace zmij::json
+}  // namespace psst::json::_1
 
-#endif /* ZMIJ_JSON_PARSER_HPP_ */
+#endif /* PSST_JSON_PARSER_HPP_ */

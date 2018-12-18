@@ -5,8 +5,8 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_JSON_IO_BASE_HPP_
-#define ZMIJ_JSON_JSON_IO_BASE_HPP_
+#ifndef PSST_JSON_JSON_IO_BASE_HPP_
+#define PSST_JSON_JSON_IO_BASE_HPP_
 
 #include <string>
 #include <iosfwd>
@@ -15,7 +15,7 @@
 #include <codecvt>
 #include <algorithm>
 
-namespace zmij::json {
+namespace psst::json::__1 {
 
 struct json_token_defs {
     enum token_ids {
@@ -29,18 +29,18 @@ struct json_token_defs {
         id_newline,
         id_ws
     };
-    using integral_type     = ::std::int64_t;
+    using integral_type     = std::int64_t;
     using float_type        = long double;
 };
 
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 struct json_io_base : json_token_defs {
     using char_type     = CharT;
     using traits_type   = Traits;
-    using ostream_type  = ::std::basic_ostream<char_type, traits_type>;
-    using istream_type  = ::std::basic_istream<char_type, traits_type>;
-    using string_type   = ::std::basic_string<char_type, traits_type>;
-    using istringstream = ::std::basic_istringstream<char_type, traits_type>;
+    using ostream_type  = std::basic_ostream<char_type, traits_type>;
+    using istream_type  = std::basic_istream<char_type, traits_type>;
+    using string_type   = std::basic_string<char_type, traits_type>;
+    using istringstream = std::basic_istringstream<char_type, traits_type>;
     enum class chars {
         null,
         double_quote,
@@ -118,10 +118,10 @@ template < typename Traits >
 struct json_io_base<char, Traits> : json_token_defs {
     using char_type     = char;
     using traits_type   = Traits;
-    using ostream_type  = ::std::basic_ostream<char_type, traits_type>;
-    using istream_type  = ::std::basic_istream<char_type, traits_type>;
-    using string_type   = ::std::basic_string<char_type, traits_type>;
-    using istringstream = ::std::basic_istringstream<char_type, traits_type>;
+    using ostream_type  = std::basic_ostream<char_type, traits_type>;
+    using istream_type  = std::basic_istream<char_type, traits_type>;
+    using string_type   = std::basic_string<char_type, traits_type>;
+    using istringstream = std::basic_istringstream<char_type, traits_type>;
 
     enum class chars : char_type {
         null            = 0,
@@ -195,7 +195,7 @@ struct json_io_base<char, Traits> : json_token_defs {
     static string_type
     to_string(T&& v)
     {
-        return ::std::to_string(::std::forward<T>(v));
+        return std::to_string(::std::forward<T>(v));
     }
 
     static bool
@@ -203,7 +203,7 @@ struct json_io_base<char, Traits> : json_token_defs {
     {
         if (c == '\177') // Del character
             return false;
-        return ::std::iscntrl(c, ::std::locale{});
+        return std::iscntrl(c, ::std::locale{});
     }
 
     static char_type
@@ -252,9 +252,9 @@ struct json_io_base<char, Traits> : json_token_defs {
     static void
     add_codepoint(string_type& str, char32_t c)
     {
-        ::std::wstring_convert<::std::codecvt_utf8<char32_t>, char32_t> converter;
+        std::wstring_convert<::std::codecvt_utf8<char32_t>, char32_t> converter;
         string_type tmp = converter.to_bytes(c);
-        ::std::copy(tmp.begin(), tmp.end(), ::std::back_inserter(str));
+        std::copy(tmp.begin(), tmp.end(), ::std::back_inserter(str));
     }
 
     template < typename Iterator >
@@ -296,10 +296,10 @@ template < typename Traits >
 struct json_io_base<wchar_t, Traits> : json_token_defs {
     using char_type     = wchar_t;
     using traits_type   = Traits;
-    using ostream_type  = ::std::basic_ostream<char_type, traits_type>;
-    using istream_type  = ::std::basic_istream<char_type, traits_type>;
-    using string_type   = ::std::basic_string<char_type, traits_type>;
-    using istringstream = ::std::basic_istringstream<char_type, traits_type>;
+    using ostream_type  = std::basic_ostream<char_type, traits_type>;
+    using istream_type  = std::basic_istream<char_type, traits_type>;
+    using string_type   = std::basic_string<char_type, traits_type>;
+    using istringstream = std::basic_istringstream<char_type, traits_type>;
 
     enum class chars : char_type {
         null            = 0,
@@ -373,13 +373,13 @@ struct json_io_base<wchar_t, Traits> : json_token_defs {
     static string_type
     to_string(T&& v)
     {
-        return ::std::to_wstring(::std::forward<T>(v));
+        return std::to_wstring(::std::forward<T>(v));
     }
 
     static bool
     is_cntrl(char_type c)
     {
-        return ::std::iscntrl(c, ::std::locale{});
+        return std::iscntrl(c, ::std::locale{});
     }
 
     static char_type
@@ -442,7 +442,7 @@ template < typename Traits >
 constexpr wchar_t const*
 json_io_base<wchar_t, Traits>::ws_state;
 
-enum class json_context : ::std::uint8_t {
+enum class json_context : std::uint8_t {
     none,       /**< JSON output hasn't been started */
     value_key,  /**< A value key is required here (object scope) */
     value,      /**< A value is required here (after a value key, object scope) */
@@ -451,7 +451,7 @@ enum class json_context : ::std::uint8_t {
 };
 
 
-template < typename Stream, typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename Stream, typename CharT, typename Traits = std::char_traits<CharT> >
 Stream&
 escape(Stream& os, CharT const* str)
 {
@@ -489,10 +489,10 @@ escape(Stream& os, CharT const* str)
  *         bytes read for error reporting.
  */
 template < typename InputIterator >
-::std::pair<char32_t, bool>
+std::pair<char32_t, bool>
 unicode_escape_sequence(InputIterator& begin, InputIterator end)
 {
-    using iterator_traits   = ::std::iterator_traits<InputIterator>;
+    using iterator_traits   = std::iterator_traits<InputIterator>;
     using char_type         = typename iterator_traits::value_type;
     using json_io           = json_io_base<char_type>;
     using chars             = typename json_io::chars;
@@ -519,10 +519,10 @@ unicode_escape_sequence(InputIterator& begin, InputIterator end)
 }
 
 template <typename InputIterator>
-::std::pair<char32_t, bool>
+std::pair<char32_t, bool>
 unicode_codepoint(InputIterator& begin, InputIterator end)
 {
-    using iterator_traits   = ::std::iterator_traits<InputIterator>;
+    using iterator_traits   = std::iterator_traits<InputIterator>;
     using char_type         = typename iterator_traits::value_type;
     using json_io           = json_io_base<char_type>;
     using chars             = typename json_io::chars;
@@ -554,17 +554,17 @@ unicode_codepoint(InputIterator& begin, InputIterator end)
 template < typename InputIterator, typename CharT, typename Traits, typename Allocator >
 bool
 unescape(InputIterator begin,
-        InputIterator end, ::std::basic_string<CharT, Traits, Allocator>& str)
+        InputIterator end, std::basic_string<CharT, Traits, Allocator>& str)
 {
     using json_io = json_io_base<CharT, Traits>;
     using chars   = typename json_io::chars;
     using escaped = typename json_io::escaped;
 
     str.clear();
-    str.reserve( ::std::distance(begin, end) );
+    str.reserve( std::distance(begin, end) );
     // Skip opening quote
     ++begin;
-    for (::std::size_t dist = 0; begin != end; ++dist) {
+    for (std::size_t dist = 0; begin != end; ++dist) {
         auto c = *begin;
         if (c == json_io::cvt(chars::escape_symbol)) {
             // Get next symbol
@@ -616,6 +616,6 @@ unescape(InputIterator begin,
     return true;
 }
 
-}  // namespace zmij::json
+}  // namespace psst::json
 
-#endif /* ZMIJ_JSON_JSON_IO_BASE_HPP_ */
+#endif /* PSST_JSON_JSON_IO_BASE_HPP_ */

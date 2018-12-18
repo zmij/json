@@ -5,20 +5,20 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_STREAMABLE_PARSER_HPP_
-#define ZMIJ_JSON_DETAIL_STREAMABLE_PARSER_HPP_
+#ifndef PSST_JSON_DETAIL_STREAMABLE_PARSER_HPP_
+#define PSST_JSON_DETAIL_STREAMABLE_PARSER_HPP_
 
-#include <zmij/json/detail/parser_base.hpp>
+#include <psst/json/detail/parser_base.hpp>
 #include <sstream>
 
-namespace zmij::json::detail {
+namespace psst::json::__1::detail {
 
-template < typename T, typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename T, typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_streamable_object_parser : basic_parser_base<CharT, Traits> {
     using base_type     = basic_parser_base<CharT, Traits>;
     using string_type   = typename base_type::string_type;
     using json_io       = json_io_base<CharT, Traits>;
-    using istringstream = ::std::basic_istringstream<CharT, Traits>;
+    using istringstream = std::basic_istringstream<CharT, Traits>;
 
     T& value;
 
@@ -32,21 +32,21 @@ struct basic_streamable_object_parser : basic_parser_base<CharT, Traits> {
         istringstream is(val);
         T tmp;
         if ((bool)(is >> tmp)) {
-            ::std::swap(value, tmp);
+            std::swap(value, tmp);
             return parse_result::done;
         }
-        throw ::std::runtime_error{"Incompatible string value"};
+        throw std::runtime_error{"Incompatible string value"};
     }
     parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
         istringstream is(json_io::to_string(val));
         T tmp;
         if ((bool)(is >> tmp)) {
-            ::std::swap(value, tmp);
+            std::swap(value, tmp);
             return parse_result::done;
         }
-        throw ::std::runtime_error{"Incompatible integral value"};
+        throw std::runtime_error{"Incompatible integral value"};
     }
     parse_result
     float_literal(long double val) override
@@ -54,10 +54,10 @@ struct basic_streamable_object_parser : basic_parser_base<CharT, Traits> {
         istringstream is(json_io::to_string(val));
         T tmp;
         if ((bool)(is >> tmp)) {
-            ::std::swap(value, tmp);
+            std::swap(value, tmp);
             return parse_result::done;
         }
-        throw ::std::runtime_error{"Incompatible float value"};
+        throw std::runtime_error{"Incompatible float value"};
     }
     parse_result
     bool_literal(bool val) override
@@ -65,42 +65,42 @@ struct basic_streamable_object_parser : basic_parser_base<CharT, Traits> {
         istringstream is(val ? json_io::true_str : json_io::false_str);
         T tmp;
         if ((bool)(is >> tmp)) {
-            ::std::swap(value, tmp);
+            std::swap(value, tmp);
             return parse_result::done;
         }
-        throw ::std::runtime_error{"Incompatible boolean value"};
+        throw std::runtime_error{"Incompatible boolean value"};
     }
 };
 
 template<>
-struct basic_streamable_object_parser< ::std::string, char >
+struct basic_streamable_object_parser< std::string, char >
         : basic_parser_base<char> {
     using base_type     = basic_parser_base<char>;
     using string_type   = typename base_type::string_type;
     using json_io       = json_io_base<char>;
 
-    ::std::string& value;
+    std::string& value;
 
     explicit
-    basic_streamable_object_parser(::std::string& v) : value{v} {}
+    basic_streamable_object_parser(std::string& v) : value{v} {}
     virtual ~basic_streamable_object_parser() {}
 
     parse_result
-    string_literal(::std::string const& val) override
+    string_literal(std::string const& val) override
     {
         value = val;
         return parse_result::done;
     }
     parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
-        value = ::std::to_string(val);
+        value = std::to_string(val);
         return parse_result::done;
     }
     parse_result
     float_literal(long double val) override
     {
-        value = ::std::to_string(val);
+        value = std::to_string(val);
         return parse_result::done;
     }
     parse_result
@@ -111,6 +111,6 @@ struct basic_streamable_object_parser< ::std::string, char >
     }
 };
 
-}  // namespace zmij::json::detail
+}  // namespace psst::json::detail
 
-#endif /* ZMIJ_JSON_DETAIL_STREAMABLE_PARSER_HPP_ */
+#endif /* PSST_JSON_DETAIL_STREAMABLE_PARSER_HPP_ */

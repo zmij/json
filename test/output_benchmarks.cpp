@@ -6,7 +6,8 @@
  */
 
 #include <benchmark/benchmark_api.h>
-#include <zmij/json/json_ostream.hpp>
+#include <psst/json/json_ostream.hpp>
+
 #include "test_data_structure.hpp"
 #include <sstream>
 
@@ -17,7 +18,7 @@ BM_StructOutput(::benchmark::State& state)
 {
     test::test_structure ts{"foo", 100500, 3.14};
     while (state.KeepRunning()) {
-        ::std::ostringstream os;
+        std::ostringstream os;
         json::json_ostream jos{os, true};
         jos << ts;
     }
@@ -26,9 +27,9 @@ BM_StructOutput(::benchmark::State& state)
 void
 BM_VectorOutput(::benchmark::State& state)
 {
-    ::std::vector<int> vec{ -1, 42, 200500 };
+    std::vector<int> vec{ -1, 42, 200500 };
     while (state.KeepRunning()) {
-        ::std::ostringstream os;
+        std::ostringstream os;
         json::json_ostream jos{os, true};
         jos << vec;
     }
@@ -37,9 +38,9 @@ BM_VectorOutput(::benchmark::State& state)
 void
 BM_StringOutput(::benchmark::State& state)
 {
-    ::std::string str{"Hello benchmark"};
+    std::string str{"Hello benchmark"};
     while (state.KeepRunning()) {
-        ::std::ostringstream os;
+        std::ostringstream os;
         json::json_ostream jos{os, true};
         jos << str;
     }
@@ -48,9 +49,9 @@ BM_StringOutput(::benchmark::State& state)
 void
 BM_StructVectorOutput(::benchmark::State& state)
 {
-    static ::std::vector<test::test_structure> vec(10000, test::test_structure{"foo", 100500, 3.14});
+    static std::vector<test::test_structure> vec(10000, test::test_structure{"foo", 100500, 3.14});
     while (state.KeepRunning()) {
-        ::std::ostringstream os;
+        std::ostringstream os;
         json::json_ostream jos{os, true};
         jos << vec;
     }

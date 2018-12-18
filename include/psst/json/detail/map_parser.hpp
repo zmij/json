@@ -5,13 +5,13 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_MAP_PARSER_HPP_
-#define ZMIJ_JSON_DETAIL_MAP_PARSER_HPP_
+#ifndef PSST_JSON_DETAIL_MAP_PARSER_HPP_
+#define PSST_JSON_DETAIL_MAP_PARSER_HPP_
 
-#include <zmij/json/traits.hpp>
-#include <zmij/json/detail/parser_base.hpp>
+#include <psst/json/traits.hpp>
+#include <psst/json/detail/parser_base.hpp>
 
-namespace zmij::json::detail {
+namespace psst::json::detail {
 
 template < typename K, typename V>
 struct key_value_parser_base : delegate_parser {
@@ -35,7 +35,7 @@ struct key_value_parser_impl : key_value_parser_base< K, V > {
     using value_parser  = typename base_type::value_parser;
 
     parse_result
-    start_member(::std::string const& val) override
+    start_member(std::string const& val) override
     {
         if (current_parser_) {
             return current_parser_->start_member(val);
@@ -65,8 +65,8 @@ struct key_value_parser_impl<false, K, V> : key_value_parser_base< K, V >{
     using base_type         = key_value_parser_base< K, V >;
     using key_parser        = typename base_type::key_parser;
     using value_parser      = typename base_type::value_parser;
-    using key_parser_ptr    = ::std::shared_ptr<key_parser>;
-    using value_parser_ptr  = ::std::shared_ptr<value_parser>;
+    using key_parser_ptr    = std::shared_ptr<key_parser>;
+    using value_parser_ptr  = std::shared_ptr<value_parser>;
 
     parse_result
     start_object() override
@@ -80,7 +80,7 @@ struct key_value_parser_impl<false, K, V> : key_value_parser_base< K, V >{
             opened_ = true;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{"Unexpected object start"};
+        throw std::runtime_error{"Unexpected object start"};
     }
     parse_result
     end_object() override
@@ -93,7 +93,7 @@ struct key_value_parser_impl<false, K, V> : key_value_parser_base< K, V >{
         return parse_result::done;
     }
     parse_result
-    start_member(::std::string const& name) override
+    start_member(std::string const& name) override
     {
         if (current_parser_) {
             if (current_parser_->start_member(name) == parse_result::done)
@@ -129,7 +129,7 @@ struct map_parser_base : parser_base {
     using mapped_type       = typename map_type::mapped_type;
     using value_type        = typename map_type::value_type;
     using kv_parser         = key_value_parser<key_type, value_type>;
-    using kv_parser_ptr     = ::std::shared_ptr< kv_parser >;
+    using kv_parser_ptr     = std::shared_ptr< kv_parser >;
 
     map_type&   value;
     map_type    tmp;
@@ -165,7 +165,7 @@ struct map_parser_impl< true, Map< K, V, Rest... > >
             opened_ = true;
             return parse_result::need_more;
         }
-        throw ::std::runtime_error{"Unexpected object start"};
+        throw std::runtime_error{"Unexpected object start"};
     }
 
     parse_result
@@ -176,12 +176,12 @@ struct map_parser_impl< true, Map< K, V, Rest... > >
                 current_parser_ = nullptr;
             return parse_result::need_more;
         }
-        ::std::swap(value, tmp);
+        std::swap(value, tmp);
         return parse_result::done;
     }
 
     parse_result
-    start_member(::std::string const& name)
+    start_member(std::string const& name)
     {
         if (!current_parser_) {
             // parser either done it's work or was never called
@@ -221,6 +221,6 @@ template < template <typename, typename, typename ...> class Map,
 struct map_parser< Map<K, V, Rest...> > : map_parser_impl<
     util::has_iostream_operators< K >::value, Map<K, V, Rest...> > {};
 
-}  // namespace zmij::json::detail
+}  // namespace psst::json::detail
 
-#endif /* ZMIJ_JSON_DETAIL_MAP_PARSER_HPP_ */
+#endif /* PSST_JSON_DETAIL_MAP_PARSER_HPP_ */

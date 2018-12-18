@@ -6,17 +6,17 @@
  */
 
 #include <gtest/gtest.h>
-#include <zmij/json/parser.hpp>
-#include <zmij/json/json_istream.hpp>
+#include <psst/json/json_istream.hpp>
+#include <psst/json/parser.hpp>
 #include <iterator>
 #include "debug_parser.hpp"
 #include "test_data_structure.hpp"
 
-namespace zmij::json::test {
+namespace psst::json::__1::test {
 
 namespace {
 
-::std::string const TEST_JSON_OBJECT =
+std::string const TEST_JSON_OBJECT =
 R"~({
 "string" : "string",
 "int" : 123,
@@ -44,7 +44,7 @@ TEST(Parser, CharIterator)
 
 TEST(StreamParser, EmptyArray)
 {
-    ::std::istringstream is{ "[[   ]]" };
+    std::istringstream is{ "[[   ]]" };
 
     debug_parser parser;
     bool r = detail::parse(parser, is);
@@ -53,7 +53,7 @@ TEST(StreamParser, EmptyArray)
 
 TEST(StreamParser, Iterator)
 {
-    ::std::istringstream is{ TEST_JSON_OBJECT };
+    std::istringstream is{ TEST_JSON_OBJECT };
 
     debug_parser parser;
     bool r = detail::parse(parser, is);
@@ -62,7 +62,7 @@ TEST(StreamParser, Iterator)
 
 TEST(Parser, BoolParser)
 {
-    ::std::string json{"true"};
+    std::string json{"true"};
 
     bool val{false};
     parser<bool> parser{val};
@@ -77,7 +77,7 @@ TEST(Parser, BoolParser)
 
 TEST(Parser, IntegralParser)
 {
-    ::std::string json{"42"};
+    std::string json{"42"};
 
     int val{0};
     detail::integral_parser< int > parser{val};
@@ -96,14 +96,14 @@ TEST(Parser, IntegralParser)
 TEST(JIstream, DISABLED_Bool)
 {
     {
-        ::std::istringstream is{"true"};
+        std::istringstream is{"true"};
         json_istream jis{is};
         bool val{false};
         EXPECT_NO_THROW(jis >> val);
         EXPECT_TRUE(val);
     }
     {
-        ::std::istringstream is{"false"};
+        std::istringstream is{"false"};
         json_istream jis{is};
         bool val{true};
         EXPECT_NO_THROW(jis >> val);
@@ -114,7 +114,7 @@ TEST(JIstream, DISABLED_Bool)
 TEST(JIstream, DISABLED_Integral)
 {
     {
-        ::std::istringstream is{"100500"};
+        std::istringstream is{"100500"};
         json_istream jis{is};
         int val{0};
         EXPECT_NO_THROW(jis >> val);
@@ -124,19 +124,19 @@ TEST(JIstream, DISABLED_Integral)
 
 TEST(JIstream, DISABLED_String)
 {
-    ::std::istringstream is{"\"foo\""};
+    std::istringstream is{"\"foo\""};
     json_istream jis{is};
-    ::std::string val{};
+    std::string val{};
     EXPECT_NO_THROW(jis >> val);
     EXPECT_EQ("foo", val);
 }
 
 TEST(JIstream, DISABLED_Struct)
 {
-    ::std::istringstream is{R"~({"fval":2.13,"ival":42,"str":"bar"})~"};
+    std::istringstream is{R"~({"fval":2.13,"ival":42,"str":"bar"})~"};
     json_istream jis{is};
     test_structure ts;
     EXPECT_NO_THROW(jis >> ts);
 }
 
-}  // namespace zmij::json::test
+}  // namespace psst::json::test

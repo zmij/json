@@ -5,15 +5,15 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_INTEGRAL_PARSER_HPP_
-#define ZMIJ_JSON_DETAIL_INTEGRAL_PARSER_HPP_
+#ifndef PSST_JSON_DETAIL_INTEGRAL_PARSER_HPP_
+#define PSST_JSON_DETAIL_INTEGRAL_PARSER_HPP_
 
-#include <zmij/json/detail/parser_base.hpp>
+#include <psst/json/detail/parser_base.hpp>
 #include <sstream>
 
-namespace zmij::json::detail {
+namespace psst::json::__1::detail {
 
-template < bool IsEnum, typename T, typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < bool IsEnum, typename T, typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_integral_parser_impl : basic_parser_base<CharT, Traits> {
     using base_type     = basic_parser_base<CharT, Traits>;
     using string_type   = typename base_type::string_type;
@@ -26,16 +26,16 @@ struct basic_integral_parser_impl : basic_parser_base<CharT, Traits> {
     parse_result
     string_literal(string_type const& val) override
     {
-        ::std::basic_istringstream<CharT, Traits> is(val);
+        std::basic_istringstream<CharT, Traits> is(val);
         T tmp;
         if ((bool)(is >> tmp)) {
-            ::std::swap(value, tmp);
+            std::swap(value, tmp);
             return parse_result::done;
         }
-        throw ::std::runtime_error{"Incompatible string value"};
+        throw std::runtime_error{"Incompatible string value"};
     }
     parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
         value = val;
         return parse_result::done;
@@ -65,18 +65,18 @@ struct basic_integral_parser_impl< true, T, CharT, Traits > : basic_parser_base<
     virtual ~basic_integral_parser_impl() {}
 
     parse_result
-    string_literal(::std::string const& val) override
+    string_literal(std::string const& val) override
     {
-        ::std::basic_istringstream<CharT, Traits> is(val);
+        std::basic_istringstream<CharT, Traits> is(val);
         T tmp;
         if ((bool)(is >> tmp)) {
-            ::std::swap(value, tmp);
+            std::swap(value, tmp);
             return parse_result::done;
         }
-        throw ::std::runtime_error{"Incompatible string value"};
+        throw std::runtime_error{"Incompatible string value"};
     }
     parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
         value = static_cast<T>(val);
         return parse_result::done;
@@ -89,14 +89,14 @@ struct basic_integral_parser_impl< true, T, CharT, Traits > : basic_parser_base<
     }
 };
 
-template < typename T, typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename T, typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_integral_parser :
-        basic_integral_parser_impl< ::std::is_enum<T>::value, T, CharT, Traits > {
-    using base_type = basic_integral_parser_impl< ::std::is_enum<T>::value, T, CharT, Traits >;
+        basic_integral_parser_impl< std::is_enum<T>::value, T, CharT, Traits > {
+    using base_type = basic_integral_parser_impl< std::is_enum<T>::value, T, CharT, Traits >;
     basic_integral_parser(T& value) : base_type{value} {}
 };
 
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_boolean_parser : basic_parser_base<CharT, Traits> {
     using base_type     = basic_parser_base<CharT, Traits>;
     using string_type   = typename base_type::string_type;
@@ -109,16 +109,16 @@ struct basic_boolean_parser : basic_parser_base<CharT, Traits> {
     parse_result
     string_literal(string_type const& val) override
     {
-        ::std::basic_istringstream<CharT, Traits> is(val);
+        std::basic_istringstream<CharT, Traits> is(val);
         bool tmp;
         if ((bool)(is >> tmp)) {
-            ::std::swap(value, tmp);
+            std::swap(value, tmp);
             return parse_result::done;
         }
-        throw ::std::runtime_error{"Incompatible string value"};
+        throw std::runtime_error{"Incompatible string value"};
     }
     parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
         value = val;
         return parse_result::done;
@@ -168,6 +168,6 @@ extern template struct basic_integral_parser<unsigned long long, wchar_t>;
 extern template struct basic_boolean_parser<char>;
 extern template struct basic_boolean_parser<wchar_t>;
 
-}  // namespace zmij::json::detail
+}  // namespace psst::json::detail
 
-#endif /* ZMIJ_JSON_DETAIL_INTEGRAL_PARSER_HPP_ */
+#endif /* PSST_JSON_DETAIL_INTEGRAL_PARSER_HPP_ */

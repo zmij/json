@@ -5,8 +5,8 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_JSON_ISTREAM_HPP_
-#define ZMIJ_JSON_JSON_ISTREAM_HPP_
+#ifndef PSST_JSON_JSON_ISTREAM_HPP_
+#define PSST_JSON_JSON_ISTREAM_HPP_
 
 #include <string>
 #include <locale>
@@ -15,12 +15,12 @@
 #include <type_traits>
 #include <iomanip>
 
-#include <zmij/json/json_stream_fwd.hpp>
-#include <zmij/json/json_io_base.hpp>
-#include <zmij/json/traits.hpp>
-#include <zmij/json/parser.hpp>
+#include <psst/json/json_stream_fwd.hpp>
+#include <psst/json/json_io_base.hpp>
+#include <psst/json/traits.hpp>
+#include <psst/json/parser.hpp>
 
-namespace zmij::json {
+namespace psst::json::__1 {
 
 namespace detail {
 
@@ -41,7 +41,7 @@ struct value_input_wrapper_impl {
     create_parser(T& val)
     {
         using parser_type = parser<T>;
-        return ::std::make_shared<parser_type>(val);
+        return std::make_shared<parser_type>(val);
     }
     template < typename T >
     static void
@@ -55,7 +55,7 @@ struct value_input_wrapper_impl {
 };
 
 template < typename CharT, typename Traits >
-struct value_input_wrapper_impl<CharT, Traits, traits::value_type::OBJECT> {
+struct value_input_wrapper_impl<CharT, Traits, traits::value_type::object> {
     using json_stream_type  = basic_json_istream<CharT, Traits>;
     using basic_parser_type = basic_parser_base<CharT, Traits>;
     using parser_ptr_type   = typename basic_parser_type::parser_ptr_type;
@@ -97,7 +97,7 @@ public:
     using stream_type   = typename base_type::istream_type;
     using string_type   = typename base_type::string_type;
     using chars         = typename base_type::chars;
-    using size_type     = ::std::size_t;
+    using size_type     = std::size_t;
     template < typename T >
     using parser        = basic_parser<T, char_type, traits_type>;
     using basic_parser  = detail::basic_parser_base<char_type, traits_type>;
@@ -117,7 +117,7 @@ public:
     read(char_type const* member_name)
     {
         if (current_context() != json_context::object)
-            throw ::std::runtime_error{"Cannot add a member name at this context"};
+            throw std::runtime_error{"Cannot add a member name at this context"};
         current_state().next_name = string_type{member_name};
         push_context(json_context::value);
         return *this;
@@ -126,12 +126,12 @@ public:
     this_type&
     read(T& val)
     {
-        using value_type    = typename ::std::decay<T>::type;
+        using value_type    = typename std::decay<T>::type;
         using wrapper_type  = input_wrapper<value_type>;
         switch (current_context()) {
             case json_context::none:
                 if (current_state().size > 0)
-                    throw ::std::runtime_error{"Cannot have more than one object at root level"};
+                    throw std::runtime_error{"Cannot have more than one object at root level"};
                 ++current_state().size;
                 break;
             default:
@@ -151,7 +151,7 @@ public:
 
         if (current_context() == json_context::none) {
             if (!current_state().parser)
-                throw ::std::runtime_error{"Parser is not initialized"};
+                throw std::runtime_error{"Parser is not initialized"};
             detail::parse(*current_state().parser, is_);
         }
         return *this;
@@ -161,17 +161,17 @@ public:
     start_object(parser_ptr p = parser_ptr{})
     {
         if (current_context() == json_context::value_key)
-            throw ::std::runtime_error{"json start object: invalid state"};
+            throw std::runtime_error{"json start object: invalid state"};
         if (!p) {
-            p = ::std::make_shared<object_parser>();
+            p = std::make_shared<object_parser>();
         }
         if (current_context() == json_context::value) {
             // Set member subparser
             if (current_state().next_name.empty()) {
-                throw ::std::runtime_error{"Name for member parser is not set"};
+                throw std::runtime_error{"Name for member parser is not set"};
             }
             pop_context();
-            current_state().parser->add_member_parser(::std::move(current_state().next_name), p);
+            current_state().parser->add_member_parser(std::move(current_state().next_name), p);
             current_state().next_name.clear();
         } else {
             current_state().parser->add_element_parser(p);
@@ -183,7 +183,7 @@ public:
     end_object()
     {
         if (current_context() != json_context::object)
-            throw ::std::runtime_error{"json end object: invalid state"};
+            throw std::runtime_error{"json end object: invalid state"};
         pop_context();
         return *this;
     }
@@ -198,16 +198,16 @@ public:
         return *this;
     }
 
-    ::std::locale
+    std::locale
     getloc() const
     { return is_.getloc(); }
     void
-    imbue( ::std::locale const& loc )
+    imbue( std::locale const& loc )
     { is_.imbue(loc); }
     template < typename Facet >
     void
     add_facet(Facet* fct)
-    { is_.imbue(::std::locale{is_.getloc(), fct}); }
+    { is_.imbue(std::locale{is_.getloc(), fct}); }
 
     stream_type&
     stream()
@@ -229,7 +229,7 @@ private:
         parser_ptr          parser;
         string_type         next_name;
     };
-    using state_stack   = ::std::stack<state_type>;
+    using state_stack   = std::stack<state_type>;
 
     state_type&
     current_state()
@@ -248,7 +248,7 @@ private:
 private:
     stream_type&        is_;
     state_type          none_{ json_context::none, 0,
-        ::std::make_shared<root_parser>(), nullptr };
+        std::make_shared<root_parser>(), nullptr };
     state_stack         state_;
 };
 
@@ -267,7 +267,7 @@ template < typename CharT, typename Traits, typename T >
 basic_json_istream<CharT, Traits>&
 operator >> (basic_json_istream<CharT, Traits>& is, T&& val)
 {
-    return is.read(::std::forward<T>(val));
+    return is.read(std::forward<T>(val));
 }
 
 //----------------------------------------------------------------------------
@@ -299,6 +299,6 @@ end_array(basic_json_istream<CharT, Traits>& is)
     is.end_array();
 }
 
-}  // namespace zmij::json
+}  // namespace psst::json
 
-#endif /* ZMIJ_JSON_JSON_ISTREAM_HPP_ */
+#endif /* PSST_JSON_JSON_ISTREAM_HPP_ */

@@ -5,8 +5,8 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_JSON_OSTREAM_HPP_
-#define ZMIJ_JSON_JSON_OSTREAM_HPP_
+#ifndef PSST_JSON_JSON_OSTREAM_HPP_
+#define PSST_JSON_JSON_OSTREAM_HPP_
 
 #include <string>
 #include <locale>
@@ -15,11 +15,11 @@
 #include <type_traits>
 #include <iomanip>
 
-#include <zmij/json/json_stream_fwd.hpp>
-#include <zmij/json/json_io_base.hpp>
-#include <zmij/json/traits.hpp>
+#include <psst/json/json_stream_fwd.hpp>
+#include <psst/json/json_io_base.hpp>
+#include <psst/json/traits.hpp>
 
-namespace zmij::json {
+namespace psst::json::__1 {
 
 namespace detail {
     template < typename CharT, typename Traits, traits::value_type >
@@ -33,10 +33,10 @@ namespace detail {
         static void
         output(json_stream_type& os, T&& val)
         {
-            os.stream() << ::std::forward<T>(val);
+            os.stream() << std::forward<T>(val);
         }
         static void
-        output(json_stream_type& os, ::std::nullptr_t)
+        output(json_stream_type& os, std::nullptr_t)
         {
             os.stream() << json_stream_type::null_str;
         }
@@ -50,7 +50,7 @@ namespace detail {
         static void
         output_value_name(json_stream_type& os, T&& val)
         {
-            output(os, ::std::forward<T>(val));
+            output(os, std::forward<T>(val));
         }
         template < typename T >
         static void
@@ -58,7 +58,7 @@ namespace detail {
     };
 
     template < typename CharT, typename Traits >
-    struct value_output_wrapper_impl< CharT, Traits, traits::value_type::STRING > {
+    struct value_output_wrapper_impl< CharT, Traits, traits::value_type::string > {
         using json_stream_type = basic_json_ostream<CharT, Traits>;
 
         template < typename T >
@@ -69,13 +69,13 @@ namespace detail {
         static void
         output(json_stream_type& os, T&& val)
         {
-            json_write(os, ::std::forward<T>(val));
+            json_write(os, std::forward<T>(val));
         }
         template < typename T >
         static void
         output_value_name(json_stream_type& os, T&& val)
         {
-            output(os, ::std::forward<T>(val));
+            output(os, std::forward<T>(val));
         }
         template < typename T >
         static void
@@ -85,7 +85,7 @@ namespace detail {
 
     template < typename CharT, typename Traits >
     struct value_output_wrapper_impl< CharT, Traits,
-            traits::value_type::ARRAY > {
+            traits::value_type::array > {
         using json_stream_type = basic_json_ostream<CharT, Traits>;
 
         template < typename T >
@@ -96,13 +96,13 @@ namespace detail {
         static void
         output(json_stream_type& os, T&& val)
         {
-            json_write(os, ::std::forward<T>(val));
+            json_write(os, std::forward<T>(val));
         }
         template < typename T >
         static void
         output_value_name(json_stream_type& /*os*/, T&& /*val*/)
         {
-            throw ::std::runtime_error("Cannot use an array as a value key");
+            throw std::runtime_error("Cannot use an array as a value key");
         }
         template < typename T >
         static void
@@ -112,7 +112,7 @@ namespace detail {
 
     template < typename CharT, typename Traits >
     struct value_output_wrapper_impl< CharT, Traits,
-            traits::value_type::OBJECT > {
+            traits::value_type::object > {
         using json_stream_type = basic_json_ostream<CharT, Traits>;
 
         template < typename T >
@@ -127,7 +127,7 @@ namespace detail {
         static void
         output(json_stream_type& os, T&& val)
         {
-            json_write(os, ::std::forward<T>(val));
+            json_write(os, std::forward<T>(val));
         }
         template < typename T >
         static void
@@ -145,7 +145,7 @@ namespace detail {
         static void
         output_value_name(json_stream_type& /*os*/, T&& /*val*/)
         {
-            throw ::std::runtime_error("Cannot use an object as a value key");
+            throw std::runtime_error("Cannot use an object as a value key");
         }
         template < typename T >
         static void
@@ -171,7 +171,7 @@ public:
     using this_type     = basic_json_ostream<char_type, traits_type>;
     using stream_type   = typename base_type::ostream_type;
     using chars         = typename base_type::chars;
-    using size_type     = ::std::size_t;
+    using size_type     = std::size_t;
     template < typename T >
     using output_wrapper = value_output_wrapper<char_type, traits_type, T>;
 public:
@@ -186,14 +186,14 @@ public:
     this_type&
     write(T&& val)
     {
-        using value_type = typename ::std::decay<T>::type;
+        using value_type = typename std::decay<T>::type;
 //        using quote_traits = traits::json_quote< value_type >;
 //        using json_type    = traits::json_type< value_type >;
         using wrapper_type = output_wrapper< value_type >;
         switch (current_context()) {
             case json_context::none:
                 if (current_state().second > 0)
-                    throw ::std::runtime_error{"Cannot have more than one object at root level"};
+                    throw std::runtime_error{"Cannot have more than one object at root level"};
                 ++current_state().second;
                 break;
             case json_context::value:
@@ -217,15 +217,15 @@ public:
         if (current_context() == json_context::value_key) {
             // Need to quote a value name
             put(chars::double_quote);
-            wrapper_type::output_value_name(*this, ::std::forward<T>(val));
+            wrapper_type::output_value_name(*this, std::forward<T>(val));
             put(chars::double_quote);
             pop_context();
             push_context(json_context::value);
         } else {
             auto ctx = current_context();
-            wrapper_type::before(*this, ctx, ::std::forward<T>(val));
-            wrapper_type::output(*this, ::std::forward<T>(val));
-            wrapper_type::after(*this, ctx, ::std::forward<T>(val));
+            wrapper_type::before(*this, ctx, std::forward<T>(val));
+            wrapper_type::output(*this, std::forward<T>(val));
+            wrapper_type::after(*this, ctx, std::forward<T>(val));
         }
         return *this;
     }
@@ -236,13 +236,13 @@ public:
         // Check we can start an object here.
         // The only context we cannot do it - object root context
         if (current_context() == json_context::value_key)
-            throw ::std::runtime_error{"json start object: invalid state"};
+            throw std::runtime_error{"json start object: invalid state"};
         if (current_context() == json_context::value) {
             start_value();
         } else if (ni) {
             if (current_context() == json_context::none) {
                 if (current_state().second > 0)
-                    throw ::std::runtime_error{"Cannot have more than one object at root level"};
+                    throw std::runtime_error{"Cannot have more than one object at root level"};
                 ++current_state().second;
             } else {
                 next_item();
@@ -256,7 +256,7 @@ public:
     end_object()
     {
         if (current_context() != json_context::object)
-            throw ::std::runtime_error{"json end object: invalid state"};
+            throw std::runtime_error{"json end object: invalid state"};
         bool empty = current_state().second == 0;
         pop_context();
         if (!empty) nl();
@@ -270,13 +270,13 @@ public:
         // Check we can start an object here.
         // The only context we cannot do it - object root context
         if (current_context() == json_context::value_key)
-            throw ::std::runtime_error{"json start array: invalid state"};
+            throw std::runtime_error{"json start array: invalid state"};
         if (current_context() == json_context::value) {
             start_value();
         } else if (ni) {
             if (current_context() == json_context::none) {
                 if (current_state().second > 0)
-                    throw ::std::runtime_error{"Cannot have more than one object at root level"};
+                    throw std::runtime_error{"Cannot have more than one object at root level"};
                 ++current_state().second;
             } else {
                 next_item();
@@ -290,7 +290,7 @@ public:
     end_array()
     {
         if (current_context() != json_context::array)
-            throw ::std::runtime_error{"json end array: invalid state"};
+            throw std::runtime_error{"json end array: invalid state"};
         bool empty = current_state().second == 0;
         pop_context();
         if (!empty) nl();
@@ -332,16 +332,16 @@ public:
         return *this;
     }
 
-    ::std::locale
+    std::locale
     getloc() const
     { return os_.getloc(); }
     void
-    imbue( ::std::locale const& loc )
+    imbue( std::locale const& loc )
     { os_.imbue(loc); }
     template < typename Facet >
     void
     add_facet(Facet* fct)
-    { os_.imbue(::std::locale{os_.getloc(), fct}); }
+    { os_.imbue(std::locale{os_.getloc(), fct}); }
 
     stream_type&
     stream()
@@ -369,8 +369,8 @@ public:
     current_context() const
     { return current_state().first; }
 private:
-    using state_type    = ::std::pair<json_context, size_type>;
-    using state_stack   = ::std::stack<state_type>;
+    using state_type    = std::pair<json_context, size_type>;
+    using state_stack   = std::stack<state_type>;
 
     state_type&
     current_state()
@@ -393,8 +393,8 @@ private:
         if (pretty_) {
             put(chars::newline);
             if (state_.size() > 0) {
-                os_ << ::std::setw(state_.size() * 4)
-                    << ::std::setfill(static_cast<char_type>(chars::space))
+                os_ << std::setw(state_.size() * 4)
+                    << std::setfill(static_cast<char_type>(chars::space))
                     << static_cast<char_type>(chars::space);
             }
         }
@@ -445,7 +445,7 @@ operator << (basic_json_ostream<CharT, Traits>& os, void(*manip)(basic_json_ostr
 }
 
 /**
- * ::std::ostream manipulator output
+ * std::ostream manipulator output
  * @param os
  * @param manip
  * @return
@@ -469,7 +469,7 @@ template < typename CharT, typename Traits, typename T >
 basic_json_ostream<CharT, Traits>&
 operator << (basic_json_ostream<CharT, Traits>& os, T&& val)
 {
-    return os.write(::std::forward<T>(val));
+    return os.write(std::forward<T>(val));
 }
 
 //----------------------------------------------------------------------------
@@ -483,7 +483,7 @@ json_write(basic_json_ostream<CharT, Traits>& os, CharT const* str)
 template < typename CharT, typename Traits, typename Allocator >
 basic_json_ostream<CharT, Traits>&
 json_write(basic_json_ostream<CharT, Traits>& os,
-        ::std::basic_string<CharT, Traits, Allocator>&& str)
+        std::basic_string<CharT, Traits, Allocator>&& str)
 {
     return escape(os, str.c_str());
 }
@@ -491,7 +491,7 @@ json_write(basic_json_ostream<CharT, Traits>& os,
 template < typename CharT, typename Traits, typename Allocator >
 basic_json_ostream<CharT, Traits>&
 json_write(basic_json_ostream<CharT, Traits>& os,
-        ::std::basic_string<CharT, Traits, Allocator> const& str)
+        std::basic_string<CharT, Traits, Allocator> const& str)
 {
     return escape(os, str.c_str());
 }
@@ -523,6 +523,6 @@ end_array(basic_json_ostream<CharT, Traits>& os)
     os.end_array();
 }
 
-}  // namespace zmij::json
+}  // namespace psst::json
 
-#endif /* ZMIJ_JSON_JSON_OSTREAM_HPP_ */
+#endif /* PSST_JSON_JSON_OSTREAM_HPP_ */

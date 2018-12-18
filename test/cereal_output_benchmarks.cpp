@@ -18,7 +18,7 @@ BM_CerealStructOutput(::benchmark::State& state)
 {
     test::test_structure ts{"foo", 100500, 3.14};
     while (state.KeepRunning()) {
-        ::std::ostringstream os;
+        std::ostringstream os;
         cereal::JSONOutputArchive ar{os};
         ar(ts);
     }
@@ -27,9 +27,9 @@ BM_CerealStructOutput(::benchmark::State& state)
 void
 BM_CerealVectorOutput(::benchmark::State& state)
 {
-    ::std::vector<int> vec{ -1, 42, 200500 };
+    std::vector<int> vec{ -1, 42, 200500 };
     while (state.KeepRunning()) {
-        ::std::ostringstream os;
+        std::ostringstream os;
         cereal::JSONOutputArchive ar{os};
         ar(vec);
     }
@@ -38,9 +38,9 @@ BM_CerealVectorOutput(::benchmark::State& state)
 void
 BM_CerealStringOutput(::benchmark::State& state)
 {
-    ::std::string str{"Hello benchmark"};
+    std::string str{"Hello benchmark"};
     while (state.KeepRunning()) {
-        ::std::ostringstream os;
+        std::ostringstream os;
         cereal::JSONOutputArchive ar{os};
         ar(str);
     }
@@ -49,13 +49,13 @@ BM_CerealStringOutput(::benchmark::State& state)
 void
 BM_CerealStructVectorOutput(::benchmark::State& state)
 {
-    static ::std::vector<test::test_structure> vec(10000, test::test_structure{"foo", 100500, 3.14});
+    static std::vector<test::test_structure> vec(10000, test::test_structure{"foo", 100500, 3.14});
 //    vec.reserve(1000);
 //    for (int i = 0; i < 1000; ++i) {
 //        vec.emplace_back(test::test_structure{"foo", 100500, 3.14});
 //    }
     while (state.KeepRunning()) {
-        ::std::ostringstream os;
+        std::ostringstream os;
         cereal::JSONOutputArchive ar{os};
         ar(vec);
     }

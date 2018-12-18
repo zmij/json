@@ -5,50 +5,50 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef JSON_DEBUG_PARSER_HPP_
-#define JSON_DEBUG_PARSER_HPP_
+#ifndef PSST_JSON_DEBUG_PARSER_HPP_
+#define PSST_JSON_DEBUG_PARSER_HPP_
 
-#include <zmij/json/parser.hpp>
+#include <psst/json/parser.hpp>
 
-namespace zmij::json::test {
+namespace psst::json::__1::test {
 
 struct debug_parser : detail::parser_base {
     debug_parser(bool blabla = true) : blabla_{blabla} {}
     virtual ~debug_parser() {}
 
     detail::parse_result
-    string_literal(::std::string const& str) override
+    string_literal(std::string const& str) override
     {
         if (blabla_)
-            ::std::cerr << "String literal '" << str << "'\n";
+            std::cerr << "String literal '" << str << "'\n";
         return detail::parse_result::need_more;
     }
     detail::parse_result
-    integral_literal(::std::int64_t val) override
+    integral_literal(std::int64_t val) override
     {
         if (blabla_)
-            ::std::cerr << "Int literal '" << val << "'\n";
+            std::cerr << "Int literal '" << val << "'\n";
         return detail::parse_result::need_more;
     }
     detail::parse_result
     float_literal(long double val) override
     {
         if (blabla_)
-            ::std::cerr << "Float literal '" << val << "'\n";
+            std::cerr << "Float literal '" << val << "'\n";
         return detail::parse_result::need_more;
     }
     detail::parse_result
     bool_literal(bool val) override
     {
         if (blabla_)
-            ::std::cerr << "Bool literal '" << val << "'\n";
+            std::cerr << "Bool literal '" << val << "'\n";
         return detail::parse_result::need_more;
     }
     detail::parse_result
     null_literal() override
     {
         if (blabla_)
-            ::std::cerr << "Null literal\n";
+            std::cerr << "Null literal\n";
         return detail::parse_result::need_more;
     }
 
@@ -56,21 +56,21 @@ struct debug_parser : detail::parser_base {
     start_array() override
     {
         if (blabla_)
-            ::std::cerr << "Start array\n";
+            std::cerr << "Start array\n";
         return detail::parse_result::need_more;
     }
     detail::parse_result
     end_array() override
     {
         if (blabla_)
-            ::std::cerr << "End array\n";
+            std::cerr << "End array\n";
         return detail::parse_result::need_more;
     }
     detail::parse_result
     start_element() override
     {
         if (blabla_)
-            ::std::cerr << "Start element\n";
+            std::cerr << "Start element\n";
         return detail::parse_result::need_more;
     }
 
@@ -78,26 +78,26 @@ struct debug_parser : detail::parser_base {
     start_object() override
     {
         if (blabla_)
-            ::std::cerr << "Start object\n";
+            std::cerr << "Start object\n";
         return detail::parse_result::need_more;
     }
     detail::parse_result
     end_object() override
     {
         if (blabla_)
-            ::std::cerr << "End object\n";
+            std::cerr << "End object\n";
         return detail::parse_result::need_more;
     }
     detail::parse_result
-    start_member(::std::string const& str) override
+    start_member(std::string const& str) override
     {
         if (blabla_)
-            ::std::cerr << "Start member '" << str << "'\n";
+            std::cerr << "Start member '" << str << "'\n";
         return detail::parse_result::need_more;
     }
     bool blabla_;
 };
 
-}  // namespace zmij::json::test
+}  // namespace psst::json::test
 
-#endif /* JSON_DEBUG_PARSER_HPP_ */
+#endif /* PSST_JSON_DEBUG_PARSER_HPP_ */

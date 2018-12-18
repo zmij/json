@@ -5,12 +5,12 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_PARSER_BASE_FWD_HPP_
-#define ZMIJ_JSON_DETAIL_PARSER_BASE_FWD_HPP_
+#ifndef PSST_JSON_DETAIL_PARSER_BASE_FWD_HPP_
+#define PSST_JSON_DETAIL_PARSER_BASE_FWD_HPP_
 
-namespace zmij::json {
+namespace psst::json::__1 {
 
-template < typename T, typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename T, typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_parser;
 
 template < typename T >
@@ -20,15 +20,15 @@ using wparser       = basic_parser<T, wchar_t>;
 
 namespace detail {
 
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_parser_base;
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_ignore_parser;
-template <typename CharT, typename Traits = ::std::char_traits<CharT>>
+template <typename CharT, typename Traits = std::char_traits<CharT>>
 struct basic_ignore_object_parser;
-template <typename CharT, typename Traits = ::std::char_traits<CharT>>
+template <typename CharT, typename Traits = std::char_traits<CharT>>
 struct basic_ignore_array_parser;
-template < typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_delegate_parser;
 
 using parser_base       = basic_parser_base<char>;
@@ -41,6 +41,6 @@ using delegate_parser   = basic_delegate_parser<char>;
 using wdelegate_parser  = basic_delegate_parser<wchar_t>;
 
 }  /* namespace detail */
-}  // namespace zmij::json
+}  // namespace psst::json
 
-#endif /* ZMIJ_JSON_DETAIL_PARSER_BASE_FWD_HPP_ */
+#endif /* PSST_JSON_DETAIL_PARSER_BASE_FWD_HPP_ */

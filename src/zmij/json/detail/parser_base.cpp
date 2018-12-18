@@ -5,19 +5,18 @@
  *      Author: sergey.fedorov
  */
 
-#include <zmij/json/detail/parser_base.hpp>
-#include <zmij/json/detail/parser_traits.hpp>
-#include <zmij/json/detail/integral_parser.hpp>
-#include <zmij/json/detail/floating_parser.hpp>
-
-#include <zmij/json/detail/json_fsm.hpp>
+#include <psst/json/detail/floating_parser.hpp>
+#include <psst/json/detail/integral_parser.hpp>
+#include <psst/json/detail/json_fsm.hpp>
+#include <psst/json/detail/parser_base.hpp>
+#include <psst/json/detail/parser_traits.hpp>
 
 namespace afsm {
-template class state_machine< zmij::json::detail::json_parser_fsm_def<char> >;
-template class state_machine< zmij::json::detail::json_parser_fsm_def<wchar_t> >;
+template class state_machine< psst::json::__1::detail::json_parser_fsm_def<char> >;
+template class state_machine< psst::json::__1::detail::json_parser_fsm_def<wchar_t> >;
 }  /* namespace afsm */
 
-namespace zmij::json::detail {
+namespace psst::json::__1::detail {
 
 template struct basic_parser_base<char>;
 template struct basic_parser_base<wchar_t>;
@@ -63,9 +62,9 @@ template struct basic_floating_parser<long double, wchar_t>;
 
 //----------------------------------------------------------------------------
 bool
-parse(parser_base& /*p*/, char const* first, ::std::size_t size)
+parse(parser_base& /*p*/, char const* first, std::size_t size)
 {
-    namespace qi = ::boost::spirit::qi;
+    namespace qi = boost::spirit::qi;
     using parser_traits = detail::parser_traits< char const*, char >;
 //    using json_io = json_io_base<char>;
     using fsm_type = parser_traits::fsm_type;
@@ -85,23 +84,23 @@ parse(parser_base& /*p*/, char const* first, ::std::size_t size)
 }
 
 bool
-parse(parser_base& p, ::std::string const& str)
+parse(parser_base& p, std::string const& str)
 {
     return parse(p, str.data(), str.size());
 }
 
 bool
-parse(parser_base& /*p*/, ::std::istream& is)
+parse(parser_base& /*p*/, std::istream& is)
 {
-    namespace qi = ::boost::spirit::qi;
-    namespace lex = ::boost::spirit::lex;
-    using istream_iterator = ::boost::spirit::istream_iterator;
+    namespace qi = boost::spirit::qi;
+    namespace lex = boost::spirit::lex;
+    using istream_iterator = boost::spirit::istream_iterator;
     using parser_traits = detail::parser_traits< istream_iterator, char >;
 //    using json_io = json_io_base<char>;
     using tokenizer_type = parser_traits::tokenizer_type;
     using fsm_type = parser_traits::fsm_type;
 
-    is.unsetf(::std::ios_base::skipws);
+    is.unsetf(std::ios_base::skipws);
 
     istream_iterator sb{is};
     istream_iterator se;
@@ -121,9 +120,9 @@ parse(parser_base& /*p*/, ::std::istream& is)
 }
 
 bool
-parse(wparser_base& /*p*/, wchar_t const* first, ::std::size_t size)
+parse(wparser_base& /*p*/, wchar_t const* first, std::size_t size)
 {
-    namespace qi = ::boost::spirit::qi;
+    namespace qi = boost::spirit::qi;
     using parser_traits = detail::parser_traits< wchar_t const*, wchar_t >;
 //    using json_io = json_io_base<wchar_t>;
 
@@ -137,16 +136,16 @@ parse(wparser_base& /*p*/, wchar_t const* first, ::std::size_t size)
 }
 
 bool
-parse(wparser_base& p, ::std::wstring const& str)
+parse(wparser_base& p, std::wstring const& str)
 {
     return parse(p, str.data(), str.size());
 }
 
 bool
-parse(wparser_base& /*p*/, ::std::wistream& is)
+parse(wparser_base& /*p*/, std::wistream& is)
 {
-    namespace qi = ::boost::spirit::qi;
-    using istream_iterator = ::boost::spirit::basic_istream_iterator<wchar_t>;
+    namespace qi = boost::spirit::qi;
+    using istream_iterator = boost::spirit::basic_istream_iterator<wchar_t>;
     using parser_traits = detail::parser_traits< istream_iterator, wchar_t >;
 //    using json_io = json_io_base<wchar_t>;
 
@@ -162,4 +161,4 @@ parse(wparser_base& /*p*/, ::std::wistream& is)
     return false;
 }
 
-}  // namespace zmij::json::detail
+}  // namespace psst::json::__1::detail

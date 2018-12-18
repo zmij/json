@@ -5,22 +5,22 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_PARSER_STATE_ADAPTER_HPP_
-#define ZMIJ_JSON_DETAIL_PARSER_STATE_ADAPTER_HPP_
+#ifndef PSST_JSON_DETAIL_PARSER_STATE_ADAPTER_HPP_
+#define PSST_JSON_DETAIL_PARSER_STATE_ADAPTER_HPP_
 
-#include <zmij/idl/grammar/common.hpp>
-#include <zmij/json/json_io_base.hpp>
+#include <psst/idl/grammar/common.hpp>
+#include <psst/json/json_io_base.hpp>
 
-namespace zmij::json::grammar {
+namespace psst::json::grammar {
 
-template < typename State, typename CharT, typename Traits = ::std::char_traits<CharT> >
+template < typename State, typename CharT, typename Traits = std::char_traits<CharT> >
 struct basic_parser_state_adapter {
     using state_type    = State;
     using json_io_type  = json_io_base<CharT, Traits>;
     using string_type   = typename json_io_type::string_type;
 
     template < typename Func >
-    using fn = ::boost::phoenix::function< Func >;
+    using fn = boost::phoenix::function< Func >;
 
     //@{
     /** @name Literals */
@@ -40,7 +40,7 @@ struct basic_parser_state_adapter {
         state_type& state;
 
         void
-        operator()(::std::int64_t val) const
+        operator()(std::int64_t val) const
         {
             state.integral_literal(val);
         }
@@ -179,6 +179,6 @@ struct basic_parser_state_adapter {
     //@}
 };
 
-}  // namespace zmij::json::grammar
+}  // namespace psst::json::grammar
 
-#endif /* ZMIJ_JSON_DETAIL_PARSER_STATE_ADAPTER_HPP_ */
+#endif /* PSST_JSON_DETAIL_PARSER_STATE_ADAPTER_HPP_ */

@@ -5,21 +5,21 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef JSON_TEST_DATA_STRUCTURE_HPP_
-#define JSON_TEST_DATA_STRUCTURE_HPP_
+#ifndef PSST_JSON_TEST_DATA_STRUCTURE_HPP_
+#define PSST_JSON_TEST_DATA_STRUCTURE_HPP_
 
-#include <zmij/json/json_stream.hpp>
+#include <psst/json/json_stream.hpp>
 
-namespace zmij::json::test {
+namespace psst::json::__1::test {
 
 struct test_structure {
-    ::std::string   str;
+    std::string   str;
     int             ival;
     float           fval;
 };
 
-inline json::json_ostream&
-json_write(json::json_ostream& os, test_structure const& v)
+inline json::__1::json_ostream&
+json_write(json::__1::json_ostream& os, test_structure const& v)
 {
     os  << "str" << v.str
         << "ival" << v.ival
@@ -27,8 +27,8 @@ json_write(json::json_ostream& os, test_structure const& v)
     return os;
 }
 
-inline json::json_istream&
-json_read(json::json_istream& is, test_structure& v)
+inline json::__1::json_istream&
+json_read(json::__1::json_istream& is, test_structure& v)
 {
     is  >> "str" >> v.str
         >> "ival" >> v.ival
@@ -36,6 +36,6 @@ json_read(json::json_istream& is, test_structure& v)
     return is;
 }
 
-}  // namespace zmij::json::test
+}  // namespace psst::json::test
 
-#endif /* JSON_TEST_DATA_STRUCTURE_HPP_ */
+#endif /* PSST_JSON_TEST_DATA_STRUCTURE_HPP_ */

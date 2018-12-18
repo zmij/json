@@ -5,8 +5,8 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_JSON_LEXER_HPP_
-#define ZMIJ_JSON_DETAIL_JSON_LEXER_HPP_
+#ifndef PSST_JSON_DETAIL_JSON_LEXER_HPP_
+#define PSST_JSON_DETAIL_JSON_LEXER_HPP_
 
 #include <boost/spirit/include/lex_lexertl.hpp>
 #include <boost/spirit/include/qi.hpp>
@@ -15,14 +15,14 @@
 #include <boost/spirit/include/phoenix_algorithm.hpp>
 #include <boost/spirit/include/phoenix_core.hpp>
 
-#include <zmij/json/util/source_location.hpp>
-#include <zmij/json/json_io_base.hpp>
+#include <psst/json/util/source_location.hpp>
+#include <psst/json/json_io_base.hpp>
 
-namespace zmij::json::lexer {
+namespace psst::json::__1::lexer {
 
-template < typename Lexer, typename CharT, typename Traits = ::std::char_traits<CharT> >
-struct basic_json_tokens : ::boost::spirit::lex::lexer< Lexer > {
-    using base          = ::boost::spirit::lex::lexer< Lexer >;
+template < typename Lexer, typename CharT, typename Traits = std::char_traits<CharT> >
+struct basic_json_tokens : boost::spirit::lex::lexer< Lexer > {
+    using base          = boost::spirit::lex::lexer< Lexer >;
     using json_io       = json_io_base<CharT, Traits>;
     using string_type   = typename json_io::string_type;
     using integral_type = typename json_io::integral_type;
@@ -31,9 +31,9 @@ struct basic_json_tokens : ::boost::spirit::lex::lexer< Lexer > {
     using base::self;
 
     template < typename T, typename ... U >
-    using token_def     = ::boost::spirit::lex::token_def<T, CharT, U... >;
-    using empty_token   = ::boost::spirit::lex::token_def<
-                                ::boost::spirit::unused_type, CharT>;
+    using token_def     = boost::spirit::lex::token_def<T, CharT, U... >;
+    using empty_token   = boost::spirit::lex::token_def<
+                                boost::spirit::unused_type, CharT>;
 
     basic_json_tokens()
         : string_literal    {json_io::string_re,            json_io::id_string       },
@@ -74,6 +74,6 @@ using json_tokens   = basic_json_tokens<Lexer, char>;
 template <typename Lexer>
 using wjson_tokens  = basic_json_tokens<Lexer, wchar_t>;
 
-}  // namespace zmij::json::lexer
+}  // namespace psst::json::lexer
 
-#endif /* ZMIJ_JSON_DETAIL_JSON_LEXER_HPP_ */
+#endif /* PSST_JSON_DETAIL_JSON_LEXER_HPP_ */

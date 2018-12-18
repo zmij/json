@@ -5,16 +5,16 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef ZMIJ_JSON_DETAIL_PARSER_TRAITS_HPP_
-#define ZMIJ_JSON_DETAIL_PARSER_TRAITS_HPP_
+#ifndef PSST_JSON_DETAIL_PARSER_TRAITS_HPP_
+#define PSST_JSON_DETAIL_PARSER_TRAITS_HPP_
 
-#include <zmij/json/detail/json_lexer.hpp>
-#include <zmij/json/detail/json_fsm.hpp>
+#include <psst/json/detail/json_lexer.hpp>
+#include <psst/json/detail/json_fsm.hpp>
 
-namespace zmij::json::detail {
+namespace psst::json::__1::detail {
 
 template < typename BaseIterator, typename CharT,
-        typename Traits = ::std::char_traits<CharT> >
+        typename Traits = std::char_traits<CharT> >
 struct parser_traits {
     using base_iterator     = BaseIterator;
     using json_io            = json_io_base<CharT, Traits>;
@@ -22,14 +22,14 @@ struct parser_traits {
     using integral_type     = typename json_io::integral_type;
     using float_type        = typename json_io::float_type;
 
-    using attribs           = ::boost::mpl::vector< string_type, integral_type, float_type, bool >;
-    using token_type        = ::boost::spirit::lex::lexertl::token< base_iterator, attribs >;
-    using lexer_type        = ::boost::spirit::lex::lexertl::lexer< token_type >;
+    using attribs           = boost::mpl::vector< string_type, integral_type, float_type, bool >;
+    using token_type        = boost::spirit::lex::lexertl::token< base_iterator, attribs >;
+    using lexer_type        = boost::spirit::lex::lexertl::lexer< token_type >;
     using tokenizer_type    = lexer::basic_json_tokens< lexer_type, CharT, Traits >;
     using token_iterator    = typename tokenizer_type::iterator_type;
     using fsm_type          = basic_json_fsm<CharT, Traits>;
 };
 
-}  // namespace zmij::json::detail
+}  // namespace psst::json::__1::detail
 
-#endif /* ZMIJ_JSON_DETAIL_PARSER_TRAITS_HPP_ */
+#endif /* PSST_JSON_DETAIL_PARSER_TRAITS_HPP_ */
