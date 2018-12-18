@@ -12,6 +12,7 @@
 #include <psst/json/util/integral_constants.hpp>
 
 #include <string>
+#include <string_view>
 #include <cstdint>
 #include <vector>
 #include <list>
@@ -70,10 +71,12 @@ struct json_type : conditional_tag<
                 >
             >,
             conditional_tag_v<
-                util::has_iostream_operators_v< T >,   /* if */
+                util::has_iostream_operators_v< T >,  /* if */
                 value_type::string,
                 value_type::object>
          > > {};
+template < typename T >
+constexpr value_type json_type_v = json_type<T>::value;
 
 //@{
 /** @name Pointer types */
@@ -122,11 +125,11 @@ struct json_type< std::unordered_multimap< K, V, Rest ... > > : json_type_consta
 //@}
 
 template <typename T>
-struct json_quote : std::conditional<
+struct json_quote : std::conditional_t<
         json_type<T>::value == value_type::string,
         std::true_type,
         std::false_type
-    >::type {};
+    > {};
 
 }  // namespace psst::json::traits
 

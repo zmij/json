@@ -6,7 +6,6 @@
  */
 
 #include <gtest/gtest.h>
-#include <psst/json/parser.hpp>
 #include <psst/json/traits.hpp>
 
 #include <boost/uuid/uuid.hpp>
@@ -14,26 +13,28 @@
 
 namespace psst::json::test {
 
-static_assert( traits::json_type< bool >::value == traits::value_type::boolean,
+static_assert( traits::json_type_v< bool > == traits::value_type::boolean,
         "Correct json value type" );
-static_assert( traits::json_type< int >::value == traits::value_type::integral,
+static_assert( traits::json_type_v< int > == traits::value_type::integral,
         "Correct json value type" );
-static_assert( traits::json_type< unsigned long >::value == traits::value_type::integral,
+static_assert( traits::json_type_v< unsigned long > == traits::value_type::integral,
         "Correct json value type" );
-static_assert( traits::json_type< std::int64_t >::value == traits::value_type::integral,
+static_assert( traits::json_type_v< std::int64_t > == traits::value_type::integral,
         "Correct json value type" );
-static_assert( traits::json_type< char >::value == traits::value_type::string,
-        "Correct json value type" );
-
-static_assert( traits::json_type< traits::value_type >::value == traits::value_type::integral,
+static_assert( traits::json_type_v< char > == traits::value_type::string,
         "Correct json value type" );
 
-static_assert( traits::json_type< double >::value == traits::value_type::floating,
+static_assert( traits::json_type_v< traits::value_type > == traits::value_type::integral,
         "Correct json value type" );
 
-static_assert( traits::json_type< std::string >::value == traits::value_type::string,
+static_assert( traits::json_type_v< double > == traits::value_type::floating,
+        "Correct json value type" );
+
+static_assert( traits::json_type_v< std::string > == traits::value_type::string,
         "Correct json value type");
-static_assert( traits::json_type< boost::uuids::uuid >::value == traits::value_type::string,
+//static_assert( traits::json_type< std::string_view >::value == traits::value_type::string,
+//        "Correct json value type");
+static_assert( traits::json_type_v< boost::uuids::uuid > == traits::value_type::string,
         "Correct json value type");
 
 TEST(Dummy, Dummy)
