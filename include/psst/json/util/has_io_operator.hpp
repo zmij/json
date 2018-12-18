@@ -14,35 +14,51 @@
 
 namespace psst::json::util {
 
-template < typename T, typename = std::void_t<> >
+//@{
+template < typename T, typename CharT = char,
+        typename CharTraits = std::char_traits<CharT>,
+        typename = std::void_t<> >
 struct has_input_operator : std::false_type {};
-template < typename T >
-struct has_input_operator< T,
+template < typename T, typename CharT, typename CharTraits >
+struct has_input_operator< T, CharT, CharTraits,
   std::void_t<decltype(
-      std::declval<std::istream&>() >> std::declval<T&>()
+      std::declval<std::basic_istream<CharT, CharTraits>&>() >> std::declval<T&>()
   )> >
     : std::true_type {};
-template < typename T >
-constexpr bool has_input_operator_v = has_input_operator<T>::value;
+template < typename T, typename CharT = char,
+    typename CharTraits = std::char_traits<CharT> >
+constexpr bool has_input_operator_v = has_input_operator<T, CharT, CharTraits>::value;
+//@}
 
-template < typename T, typename = std::void_t<> >
+//@{
+template < typename T, typename CharT = char,
+    typename CharTraits = std::char_traits<CharT>,
+    typename = std::void_t<> >
 struct has_output_operator : std::false_type {};
-template < typename T >
-struct has_output_operator< T,
+template < typename T, typename CharT, typename CharTraits >
+struct has_output_operator< T, CharT, CharTraits,
   std::void_t<decltype(
-      std::declval<std::ostream&>() << std::declval<T const&>()
+      std::declval<std::basic_ostream<CharT, CharTraits>&>() << std::declval<T const&>()
   )> >
     : std::true_type {};
-template < typename T >
-constexpr bool has_output_operator_v = has_output_operator<T>::value;
+template < typename T, typename CharT = char,
+    typename CharTraits = std::char_traits<CharT> >
+constexpr bool has_output_operator_v = has_output_operator<T, CharT, CharTraits>::value;
+//@}
 
-template < typename T >
+//@{
+template < typename T, typename CharT = char,
+    typename CharTraits = std::char_traits<CharT> >
 struct has_iostream_operators
     : std::integral_constant<bool,
-        has_input_operator_v<T> && has_output_operator_v<T>> {};
+        has_input_operator_v<T, CharT, CharTraits> &&
+        has_output_operator_v<T, CharT, CharTraits>> {};
 
-template < typename T >
-constexpr bool has_iostream_operators_v = has_iostream_operators<T>::value;
+template < typename T, typename CharT = char,
+    typename CharTraits = std::char_traits<CharT> >
+constexpr bool has_iostream_operators_v =
+      has_iostream_operators<T, CharT, CharTraits>::value;
+//@}
 
 template <>
 struct has_input_operator< std::nullptr_t > : ::std::false_type{};
