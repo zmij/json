@@ -85,8 +85,11 @@ operator << (basic_ostream<CharT, Traits>& os, bool)
 {
     return os;
 }
-
 //@}
+
+extern template class basic_ostream<char>;
+extern template class basic_ostream<wchar_t>;
+
 }  // namespace psst::json
 
 

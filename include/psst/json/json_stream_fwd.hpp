@@ -11,6 +11,19 @@
 #include <string>
 
 namespace psst::json {
+template <typename CharT, typename Traits = std::char_traits<CharT>>
+class basic_ostream;
+
+using ostream = basic_ostream<char>;
+using wostream = basic_ostream<wchar_t>;
+
+template <typename CharT, typename Traits = std::char_traits<CharT>>
+class basic_istream;
+
+using istream = basic_istream<char>;
+using wistream = basic_istream<wchar_t>;
+
+// below is deprecated
 namespace __1 {
 
 template < typename CharT, typename Traits = std::char_traits<CharT> >
@@ -26,18 +39,6 @@ using json_istream  = basic_json_istream<char>;
 using wjson_istream = basic_json_istream<wchar_t>;
 
 }  // namespace __1
-
-template <typename CharT, typename Traits = std::char_traits<CharT>>
-class basic_ostream;
-
-using ostream = basic_ostream<char>;
-using wostream = basic_ostream<wchar_t>;
-
-template <typename CharT, typename Traits = std::char_traits<CharT>>
-class basic_istream;
-
-using istream = basic_istream<char>;
-using wistream = basic_istream<wchar_t>;
 
 }  // namespace psst::json
 

@@ -5,6 +5,16 @@
  *      Author: sergey.fedorov
  */
 
+#include <psst/json/basic_ostream.hpp>
+
+namespace psst::json {
+
+template class basic_ostream<char>;
+template class basic_ostream<wchar_t>;
+
+}  // namespace psst::json
+
+// below is deprecated
 #include <psst/json/json_stream.hpp>
 
 namespace psst::json::__1 {
