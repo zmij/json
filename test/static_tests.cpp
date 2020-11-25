@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include <psst/json/traits.hpp>
+#include <psst/json/detail/key_value_pair.hpp>
 
 #include <string>
 #include <string_view>
@@ -155,10 +156,47 @@ static_assert( (traits::json_type_v< std::multimap<int, int> >            == val
 static_assert( (traits::json_type_v< std::unordered_map<int, int> >       == value_type::object), "");
 static_assert( (traits::json_type_v< std::unordered_multimap<int, int> >  == value_type::object), "");
 
+using string_int_const_kvp = detail::key_value_pair<std::string const&, int const&>;
+static_assert(string_int_const_kvp::readonly == true, "");
+static_assert(string_int_const_kvp::read_key == false, "");
+
+using string_int_ro_key_kvp = detail::key_value_pair<std::string const&, int&>;
+static_assert(string_int_ro_key_kvp::readonly == false, "");
+static_assert(string_int_ro_key_kvp::read_key == false, "");
+
+using string_int_rw_kvp = detail::key_value_pair<std::string&, int&>;
+static_assert(string_int_rw_kvp::readonly == false, "");
+static_assert(string_int_rw_kvp::read_key == true, "");
+
+using char_int_const_kvp = detail::key_value_pair<char const*, int const&>;
+static_assert(char_int_const_kvp::readonly == true, "");
+static_assert(char_int_const_kvp::read_key == false, "");
+
+using char_int_ro_key_kvp = detail::key_value_pair<char const*, int&>;
+static_assert(char_int_ro_key_kvp::readonly == false, "");
+static_assert(char_int_ro_key_kvp::read_key == false, "");
+
+using string_int_const_kvp1 = decltype(make_kvp(std::declval<std::string const&>(), std::declval<int const&>()));
+static_assert(string_int_const_kvp1::readonly == true, "");
+static_assert(string_int_const_kvp1::read_key == false, "");
+
+using string_int_ro_key_kvp1 = decltype(make_kvp(std::declval<std::string const&>(), std::declval<int&>()));
+static_assert(string_int_ro_key_kvp1::readonly == false, "");
+static_assert(string_int_ro_key_kvp1::read_key == false, "");
+
+using char_int_const_kvp1 = decltype(make_kvp("", std::declval<int const&>()));
+static_assert(char_int_const_kvp1::readonly == true, "");
+static_assert(char_int_const_kvp1::read_key == false, "");
+
+using char_int_ro_key_kvp1 = decltype(make_kvp("", std::declval<int&>()));
+static_assert(char_int_ro_key_kvp1::readonly == false, "");
+static_assert(char_int_ro_key_kvp1::read_key == false, "");
+
 
 TEST(Dummy, Dummy)
 {
-
+  int foo;
+  PSST_JSON_KVP(foo);
 }
 
 }  // namespace psst::json::test
